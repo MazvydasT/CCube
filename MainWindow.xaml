@@ -1,0 +1,282 @@
+﻿<Window x:Class="CCube.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CCube"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="C³" Height="450" Width="1000"
+        Language="{Binding Language}">
+    <Window.Resources>
+        <local:TitleValueConverter x:Key="TitleValueConverter"/>
+        <local:ImportStatusToButtonTextConverter x:Key="ImportStatusToButtonTextConverter"/>
+        <local:StartStopButtonEnabledConverter x:Key="StartStopButtonEnabledConverter"/>
+        <local:VisibilityToBlurRadiusConverter x:Key="VisibilityToBlurRadiusConverter"/>
+        <local:ImportStatusToVisibilityConverter x:Key="ImportStatusToVisibilityConverter"/>
+        <local:ProgressMaxValueToVisibilityConverter x:Key="ProgressMaxValueToVisibilityConverter"/>
+    </Window.Resources>
+    <Grid>
+        <local:LogIn Visibility="Hidden" x:Name="LogInWindow" Panel.ZIndex="1"/>
+
+        <Grid Margin="8">
+            <Grid.Effect>
+                <BlurEffect>
+                    <BlurEffect.Radius>
+                        <MultiBinding Converter="{StaticResource VisibilityToBlurRadiusConverter}">
+                            <Binding Path="Visibility" ElementName="LogInWindow"/>
+                        </MultiBinding>
+                    </BlurEffect.Radius>
+                </BlurEffect>
+            </Grid.Effect>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" MinWidth="200"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="1*" MinWidth="200"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*" MinHeight="100"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="Auto" MinHeight="100"/>
+            </Grid.RowDefinitions>
+            <Grid Margin="0,0,0,8" Grid.ColumnSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Visibility="{Binding ImportManager.Status, Converter={StaticResource ImportStatusToVisibilityConverter}}" Content="Load" Click="ButtonBrowse_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+
+                <Grid Grid.Column="1" Margin="8,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <ProgressBar Visibility="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Maximum, Converter={StaticResource ProgressMaxValueToVisibilityConverter}}" Grid.ColumnSpan="5" Height="10" Maximum="{Binding Stats.InputsTotal}" Value="{Binding Stats.InputsProcessed,Mode=OneWay}">
+
+                        <ProgressBar.Foreground>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="{Binding ElementName=CompletedIndicator, Path=Color}" Offset="0"/>
+                                <GradientStop x:Name="CompletedIndicator" Color="#FF01D328" Offset="{Binding Stats.InputsSuccessfulRate}"/>
+                                <GradientStop x:Name="FailedIndicator"  Color="Red" Offset="{Binding ElementName=CompletedIndicator,Path=Offset}"/>
+                                <GradientStop Color="{Binding ElementName=FailedIndicator, Path=Color}" Offset="1"/>
+                            </LinearGradientBrush>
+                        </ProgressBar.Foreground>
+                    </ProgressBar>
+
+
+                    <WrapPanel Grid.Row="1">
+                        <GroupBox Header="Time">
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel>
+                                    <Label Content="Remaining"/>
+                                    <Label Content="{Binding Stats.EstimatedRemainingTime}" ContentStringFormat="d'd 'h'h 'm'm'" HorizontalAlignment="Center"/>
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <Label Content="ETA"/>
+                                    <Label Content="{Binding Stats.EstimatedTimeOfCompletion}" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+                        
+                        <GroupBox Header="Chunks">
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel>
+                                    <Label Content="Total"/>
+                                    <Label Content="{Binding Stats.InputsTotal}" HorizontalAlignment="Center"/>
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <Label Content="Waiting"/>
+                                    <Label Content="{Binding Stats.InputsWaiting}" HorizontalAlignment="Center"/>
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <Label Content="Running"/>
+                                    <Label Content="{Binding Stats.InputsRunning}" HorizontalAlignment="Center"/>
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <Label Content="Successful"/>
+                                    <Label Content="{Binding Stats.InputsSuccessful}" HorizontalAlignment="Center"/>
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <Label Content="Failed"/>
+                                    <Label Content="{Binding Stats.InputsFailed}" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="Iterations">
+                            <StackPanel Orientation="Horizontal" >
+                                <StackPanel>
+                                    <Label Content="Total"/>
+                                    <Label Content="{Binding Stats.IterationsTotal}" HorizontalAlignment="Center"/>
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <Label Content="Successful"/>
+                                    <Label Content="{Binding Stats.IterationsSuccessful}" HorizontalAlignment="Center"/>
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <Label Content="Failed"/>
+                                    <Label Content="{Binding Stats.IterationsFailed}" HorizontalAlignment="Center"/>
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <Label Content="Success rate"/>
+                                    <Label Content="{Binding Stats.IterationsSuccessRate}" ContentStringFormat="P" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="Filter">
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel>
+                                    <CheckBox IsChecked="True" x:Name="CheckBoxWaiting" Content="Waiting" Checked="FilterCheckBoxChanged" Unchecked="FilterCheckBoxChanged"/>
+                                    <CheckBox IsChecked="True" x:Name="CheckBoxSuccessful" Content="Succeeded" Checked="FilterCheckBoxChanged" Unchecked="FilterCheckBoxChanged"/>
+                                </StackPanel>
+
+                                <StackPanel Margin="8,0,0,0">
+                                    <CheckBox IsChecked="True" x:Name="CheckBoxRunning" Content="Running" Checked="FilterCheckBoxChanged" Unchecked="FilterCheckBoxChanged"/>
+                                    <CheckBox IsChecked="True" x:Name="CheckBoxFailed" Content="Failed" Checked="FilterCheckBoxChanged" Unchecked="FilterCheckBoxChanged"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+                    </WrapPanel>
+                </Grid>
+
+                <Button Grid.Column="2" Visibility="{Binding ImportManager.Status, Converter={StaticResource ImportStatusToVisibilityConverter}}" Content="Log in details" Click="Button_Click" Margin="0,0,8,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Button Grid.Column="3" x:Name="goButton" Content="{Binding ImportManager.Status, Converter={StaticResource ImportStatusToButtonTextConverter}}" Click="GoButton_Click" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource StartStopButtonEnabledConverter}">
+                            <Binding Path="ImportManager.Status"/>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+            </Grid>
+            
+            <DataGrid AlternatingRowBackground="#FFD9D9D9" HorizontalGridLinesBrush="#FFD9D9D9" VerticalGridLinesBrush="#FFD9D9D9" x:Name="dataGridInputs" Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding InputsViewSource.View}" IsReadOnly="True" AlternationCount="2">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="#" Binding="{Binding SequenceNumber}"/>
+                    <DataGridTextColumn Header="Chunk name" Binding="{Binding ChunkName}"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding CurrentActiveIteration.CurrentStatus}"/>
+                    <DataGridTextColumn Header="Iteration" Binding="{Binding CurrentActiveIteration.IterationNumber}"/>
+                    <DataGridTextColumn Header="Start time" Binding="{Binding CurrentActiveIteration.StartTime}"/>
+                    <DataGridTextColumn Header="End time" Binding="{Binding CurrentActiveIteration.EndTime}"/>
+                    <DataGridTextColumn Header="Duration" Binding="{Binding CurrentActiveIteration.Duration, StringFormat={}{0:hh':'mm':'ss}}"/>
+                    <DataGridTextColumn Header="eMS project id" Binding="{Binding CCCommandParameters.ProjectId}"/>
+                    <DataGridTextColumn Header="eMS external id" Binding="{Binding CCCommandParameters.NodeExternalId}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" Grid.ColumnSpan="3" />
+            <GroupBox Header="Log" Grid.Row="3" Grid.ColumnSpan="3">
+                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Notifier.Notifications}" SelectionMode="Single" IsReadOnly="True" Margin="0,1,0,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Type" Binding="{Binding NotificationType}"/>
+                        <DataGridTextColumn Header="Message" Binding="{Binding Message}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" DataContext="{Binding ElementName=dataGridInputs, Path=SelectedItem}" Grid.Row="1" Grid.Column="2">
+                <StackPanel VerticalAlignment="Top">
+                    <Expander  Header="Input">
+
+                        <local:SummaryDisplay Margin="0,8,0,0">
+                            <local:SummaryDisplay.DataContext>
+                                <MultiBinding Converter="{StaticResource TitleValueConverter}">
+                                    <MultiBinding.ConverterParameter>
+                                        <x:Array Type="sys:String">
+                                            <sys:String>Chunk name:</sys:String>
+                                            <sys:String>eMS project id:</sys:String>
+                                            <sys:String>eMS node external id:</sys:String>
+                                            <sys:String>Incremental:</sys:String>
+                                            <sys:String>Check-in:</sys:String>
+                                            <sys:String>3D mapping:</sys:String>
+                                            <sys:String>Comment:</sys:String>
+                                            <sys:String>Command:</sys:String>
+                                            <sys:String>XML:</sys:String>
+                                        </x:Array>
+                                    </MultiBinding.ConverterParameter>
+
+                                    <Binding Path="ChunkName"/>
+                                    <Binding Path="CCCommandParameters.ProjectId"/>
+                                    <Binding Path="CCCommandParameters.NodeExternalId"/>
+                                    <Binding Path="CCCommandParameters.Incremental"/>
+                                    <Binding Path="CCCommandParameters.CheckIn"/>
+                                    <Binding Path="CCCommandParameters.ThreeDMapping"/>
+                                    <Binding Path="CCCommandParameters.Comment"/>
+                                    <Binding Path="CCCommandParameters"/>
+                                    <Binding Path="XMLElement"/>
+                                </MultiBinding>
+                            </local:SummaryDisplay.DataContext>
+                        </local:SummaryDisplay>
+
+                    </Expander>
+
+                    <Expander IsExpanded="True" Header="Current iteration">
+
+                        <local:SummaryDisplay Margin="0,8,0,0">
+                            <local:SummaryDisplay.DataContext>
+                                <MultiBinding Converter="{StaticResource TitleValueConverter}">
+                                    <MultiBinding.ConverterParameter>
+                                        <x:Array Type="sys:String">
+                                            <sys:String>Number:</sys:String>
+                                            <sys:String>Status:</sys:String>
+                                            <sys:String>Start time:</sys:String>
+                                            <sys:String>Duration:</sys:String>
+                                            <sys:String>Message:</sys:String>
+                                        </x:Array>
+                                    </MultiBinding.ConverterParameter>
+
+                                    <Binding Path="CurrentActiveIteration.IterationNumber"/>
+                                    <Binding Path="CurrentActiveIteration.CurrentStatus"/>
+                                    <Binding Path="CurrentActiveIteration.StartTime"/>
+                                    <Binding Path="CurrentActiveIteration.Duration"/>
+                                    <Binding Path="CurrentActiveIteration.Message"/>
+                                </MultiBinding>
+                            </local:SummaryDisplay.DataContext>
+                        </local:SummaryDisplay>
+
+                    </Expander>
+
+                    <Expander IsExpanded="True" Header="Iterations">
+
+                        <DataGrid AlternatingRowBackground="#FFD9D9D9" VerticalGridLinesBrush="#FFD9D9D9" HorizontalGridLinesBrush="#FFD9D9D9" ItemsSource="{Binding Iterations}" AutoGenerateColumns="False" IsReadOnly="True" AlternationCount="2" SelectionUnit="Cell" Margin="0,8,0,0" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="#" Binding="{Binding IterationNumber}" SortDirection="Descending"/>
+                                <DataGridTextColumn Header="Status" Binding="{Binding CurrentStatus}"/>
+                                <DataGridTextColumn Header="Start time" Binding="{Binding StartTime}"/>
+                                <DataGridTextColumn Header="Duration" Binding="{Binding Duration, StringFormat={}{0:hh':'mm':'ss}}"/>
+                                <DataGridTextColumn Header="Message" Binding="{Binding Message}" Width="200">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Execution log" Binding="{Binding ExecutionLogString}" Width="250">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Expander>
+                </StackPanel>
+            </ScrollViewer>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="1"/>
+        </Grid>
+    </Grid>
+</Window>
