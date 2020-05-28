@@ -171,9 +171,9 @@ namespace CCube
 
                 else if (RetryFailed)
                 {
-                    var inputsToRetry = inputs.Where(input => input.LatestIteration != input.CurrentActiveIteration);
+                    var inputsToRetry = inputsToBeProcessed.Where(input => input.LatestIteration != input.CurrentActiveIteration).ToArray();
 
-                    if (inputsToRetry.Count() > 0)
+                    if (inputsToRetry.Length > 0)
                     {
                         Start(inputsToRetry);
                     }
