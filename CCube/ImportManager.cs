@@ -99,7 +99,7 @@ namespace CCube
                 Utils.GUIDispatcher.Invoke(() => { applicationDataService.InputsViewSource.View.Refresh(); });
 
 
-                var inputsToBeProcessed = inputs.Where(input => input.CurrentActiveIteration.CurrentStatus == Iteration.Status.Waiting);
+                var inputsToBeProcessed = inputs.Where(input => input.CurrentActiveIteration.CurrentStatus == Iteration.Status.Waiting).ToArray();
 
                 foreach (var input in inputsToBeProcessed)
                 {
