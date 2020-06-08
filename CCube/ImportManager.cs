@@ -144,6 +144,8 @@ namespace CCube
                     PostItemImport(input);
                 }
 
+                var stopping = Status == ImportStatusOptions.Stopping;
+
                 Status = ImportStatusOptions.Idle;
 
                 if (ErrorStatus != ErrorStatusOptions.NoNetwork) noNetworkWaitTimeInMinutes = 1;
@@ -169,13 +171,13 @@ namespace CCube
                     LogInErrorStatus = ErrorStatus;
                 }
 
-                else if (RetryFailed)
+                else if (RetryFailed && !stopping)
                 {
                     var inputsToRetry = inputsToBeProcessed.Where(input => input.LatestIteration != input.CurrentActiveIteration).ToArray();
 
                     if (inputsToRetry.Length > 0)
                     {
-                        Start(inputsToRetry);
+                        Utils.GUIDispatcher.Invoke(() => Start(inputsToRetry));
                     }
                 }
             });
