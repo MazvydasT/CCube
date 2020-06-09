@@ -40,17 +40,17 @@ namespace CCube
         private void GoButton_Click(object sender, RoutedEventArgs e)
         {
             var applicationDataService = ApplicationData.Service;
-            var importNamager = applicationDataService.ImportManager;
-            var importStatus = importNamager.Status;
+            var importManager = applicationDataService.ImportManager;
+            var importStatus = importManager.Status;
 
             if (importStatus == ImportManager.ImportStatusOptions.Idle)
             {
                 applicationDataService.Stats.ImportStartTime = DateTime.Now;
-                importNamager.Start(applicationDataService.Inputs);
+                importManager.Start(applicationDataService.Inputs);
             }
 
             else if (importStatus == ImportManager.ImportStatusOptions.Running)
-                importNamager.Stop();
+                importManager.Stop();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -153,6 +153,7 @@ namespace CCube
                 if (ErrorStatus == ErrorStatusOptions.NoNetwork)
                 {
                     stats.ImportStartTime = null;
+                    stats.LatestIterationCompleteTime = null;
 
                     Thread.Sleep(new TimeSpan(0, noNetworkWaitTimeInMinutes, 0));
 
