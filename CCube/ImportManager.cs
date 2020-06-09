@@ -207,6 +207,7 @@ namespace CCube
 
                 ++stats.InputsSuccessful;
                 ++stats.IterationsSuccessful;
+                ++stats.IterationsSuccessfulSinceStart;
             }
 
             else

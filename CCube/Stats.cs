@@ -83,7 +83,14 @@ namespace CCube
         public uint IterationsSuccessful
         {
             get { return iterationsSuccessful; }
-            set { SetProperty(ref iterationsSuccessful, value, new[] { "IterationsSuccessRate", "AverageIterationDuration", "EstimatedRemainingTime", "EstimatedTimeOfCompletion" }); }
+            set { SetProperty(ref iterationsSuccessful, value, "IterationsSuccessRate"); }
+        }
+
+        private uint iterationsSuccessfulSinceStart = 0;
+        public uint IterationsSuccessfulSinceStart
+        {
+            get { return iterationsSuccessfulSinceStart; }
+            set { SetProperty(ref iterationsSuccessfulSinceStart, value, new[] { "AverageIterationDuration", "EstimatedRemainingTime", "EstimatedTimeOfCompletion" }); }
         }
 
         private uint iterationsFailed = 0;
@@ -103,14 +110,14 @@ namespace CCube
         }
 
         public TimeSpan? AverageIterationDuration =>
-            LatestIterationCompleteTime == null || ImportStartTime == null || IterationsSuccessful == 0 ? (TimeSpan?)null :
-            new TimeSpan((LatestIterationCompleteTime - ImportStartTime).Value.Ticks / IterationsSuccessful);
+            LatestIterationCompleteTime == null || ImportStartTime == null || IterationsSuccessfulSinceStart == 0 ? (TimeSpan?)null :
+            new TimeSpan((LatestIterationCompleteTime - ImportStartTime).Value.Ticks / IterationsSuccessfulSinceStart);
 
         // METHODS
 
         public void Reset()
         {
-            InputsTotal = InputsWaiting = InputsRunning = InputsSuccessful = InputsFailed = IterationsTotal = IterationsSuccessful = IterationsFailed = 0;
+            InputsTotal = InputsWaiting = InputsRunning = InputsSuccessful = InputsFailed = IterationsTotal = IterationsSuccessful = IterationsSuccessfulSinceStart = IterationsFailed = 0;
             ImportStartTime = null;
             LatestIterationCompleteTime = null;
         }

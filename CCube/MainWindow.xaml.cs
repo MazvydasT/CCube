@@ -46,6 +46,7 @@ namespace CCube
             if (importStatus == ImportManager.ImportStatusOptions.Idle)
             {
                 applicationDataService.Stats.ImportStartTime = DateTime.Now;
+                applicationDataService.Stats.IterationsSuccessfulSinceStart = 0;
                 importManager.Start(applicationDataService.Inputs);
             }
 
