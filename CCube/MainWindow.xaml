@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:CCube"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="C³" Height="450" Width="1000"
-        Language="{Binding Language}">
+        Title="Collaboration Context Console" Height="450" Width="1000"
+        Language="{Binding Language}" Icon="CCubedIcon.ico">
     <Window.Resources>
         <local:TitleValueConverter x:Key="TitleValueConverter"/>
         <local:ImportStatusToButtonTextConverter x:Key="ImportStatusToButtonTextConverter"/>
