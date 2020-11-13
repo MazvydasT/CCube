@@ -24,17 +24,18 @@ namespace CCube
         {
             var openFileDialog = new OpenFileDialog()
             {
-                Filter = "CC Update Console parameters file (*.xml)|*.xml"
+                Filter = "CC Update Console parameters file (*.xml)|*.xml",
+                Multiselect = true
             };
 
             var openFileResult = openFileDialog.ShowDialog();
             if (openFileResult == System.Windows.Forms.DialogResult.Cancel) return;
 
-            var pathToParams = openFileDialog.FileName;
+            var pathsToParams = openFileDialog.FileNames;
 
             //ApplicationData.Service.Inputs.Clear();
 
-            Utils.AddInputsFromParamsXML(pathToParams);
+            Utils.AddInputsFromParamsXML(pathsToParams);
         }
 
         private void GoButton_Click(object sender, RoutedEventArgs e)
