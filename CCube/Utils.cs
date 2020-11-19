@@ -15,13 +15,13 @@ namespace CCube
     {
         public static Dispatcher GUIDispatcher { get; set; }
 
-        public static void AddInputsFromParamsXML(IEnumerable<string> pathsToParamsXMLFile)
+        public static void AddInputsFromParamsXML(IEnumerable<string> pathsToParamsXMLFile, bool append = false)
         {
             uint count = 0;
 
             var applicationDataService = ApplicationData.Service;
 
-            applicationDataService.Inputs = pathsToParamsXMLFile.Select(pathToParamsXMLFile => (XMLManager.GetDocument(pathToParamsXMLFile) ?? new XDocument()).Descendants("CCCall")
+            var newInputs = pathsToParamsXMLFile.Select(pathToParamsXMLFile => (XMLManager.GetDocument(pathToParamsXMLFile) ?? new XDocument()).Descendants("CCCall")
                 .Select(ccCallElement => new { ccCallObject = CreateCCCall(ccCallElement), ccCallElement })
                 .Where(pair => pair.ccCallObject != null)
                 .Select(pair =>
@@ -49,6 +49,16 @@ namespace CCube
 
                     return input;
                 })).SelectMany(s => s).ToArray();
+
+            if (append)
+            {
+                applicationDataService.Inputs = applicationDataService.Inputs.Concat(newInputs).ToArray();
+            }
+
+            else
+            {
+                applicationDataService.Inputs = newInputs;
+            }
 
             var statsService = applicationDataService.Stats;
 

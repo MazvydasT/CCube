@@ -32,10 +32,8 @@ namespace CCube
             if (openFileResult == System.Windows.Forms.DialogResult.Cancel) return;
 
             var pathsToParams = openFileDialog.FileNames;
-
-            //ApplicationData.Service.Inputs.Clear();
-
-            Utils.AddInputsFromParamsXML(pathsToParams);
+            
+            Utils.AddInputsFromParamsXML(pathsToParams, sender == insertButton);
         }
 
         private void GoButton_Click(object sender, RoutedEventArgs e)
