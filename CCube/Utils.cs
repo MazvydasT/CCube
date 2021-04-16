@@ -17,9 +17,9 @@ namespace CCube
 
         public static void AddInputsFromParamsXML(IEnumerable<string> pathsToParamsXMLFile, bool append = false)
         {
-            uint count = 0;
-
             var applicationDataService = ApplicationData.Service;
+
+            uint count = append ? (uint)applicationDataService.Inputs.Count() : 0;
 
             var newInputs = pathsToParamsXMLFile.Select(pathToParamsXMLFile => (XMLManager.GetDocument(pathToParamsXMLFile) ?? new XDocument()).Descendants("CCCall")
                 .Select(ccCallElement => new { ccCallObject = CreateCCCall(ccCallElement), ccCallElement })
