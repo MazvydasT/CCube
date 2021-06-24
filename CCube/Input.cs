@@ -21,15 +21,15 @@ namespace CCube
         private DateTime? startTime;
         public DateTime? StartTime
         {
-            get { return startTime; }
-            set { SetProperty(ref startTime, value, new[] { "Duration" }); }
+            get => startTime;
+            set => SetProperty(ref startTime, value, new[] { "Duration" });
         }
 
         private DateTime? endTime;
         public DateTime? EndTime
         {
-            get { return endTime; }
-            set { SetProperty(ref endTime, value, new[] { "Duration" }); }
+            get => endTime;
+            set => SetProperty(ref endTime, value, new[] { "Duration" });
         }
 
         public TimeSpan? Duration
@@ -40,22 +40,22 @@ namespace CCube
         private Status? currentStatus;
         public Status? CurrentStatus
         {
-            get { return currentStatus; }
-            set { SetProperty(ref currentStatus, value, new[] { "CurrentStatusName" }); }
+            get => currentStatus;
+            set => SetProperty(ref currentStatus, value, new[] { "CurrentStatusName" });
         }
 
         private string message;
         public string Message
         {
-            get { return message; }
-            set { SetProperty(ref message, value); }
+            get => message;
+            set => SetProperty(ref message, value);
         }
 
         private string[] executionLog;
         public string[] ExecutionLog
         {
-            get { return executionLog; }
-            set { SetProperty(ref executionLog, value, new[] { "ExecutionLogString" }); }
+            get => executionLog;
+            set => SetProperty(ref executionLog, value, new[] { "ExecutionLogString" });
         }
 
         public string ExecutionLogString { get { return string.Join("\r\n", ExecutionLog ?? new string[0]); } }
@@ -93,8 +93,8 @@ namespace CCube
         private Iteration[] iterations = new Iteration[0];
         public Iteration[] Iterations
         {
-            get { return iterations; }
-            private set { SetProperty(ref iterations, value, new[] { "CurrentActiveIteration", "LatestIteration" }); }
+            get => iterations;
+            private set => SetProperty(ref iterations, value, new[] { "CurrentActiveIteration", "LatestIteration" });
         }
 
         //private Iteration currentActiveIteration;

@@ -11,13 +11,10 @@ namespace CCube
     {
         public MainWindow()
         {
-            InitializeComponent();
-
             Utils.GUIDispatcher = Dispatcher;
+            ApplicationData.Service.MainWindow = this;
 
-            var service = ApplicationData.Service;
-            DataContext = service;
-            service.MainWindow = this;
+            InitializeComponent();
         }
 
         private void ButtonBrowse_Click(object sender, RoutedEventArgs e)

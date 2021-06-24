@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Markup;
 
 namespace CCube
 {
@@ -45,18 +46,36 @@ namespace CCube
         }
     }
 
-    public class ImportStatusToButtonTextConverter : IValueConverter
+    public class ImportStatusToContentConverter : MarkupExtension, IValueConverter
     {
+        public object StartContent { get; set; }
+        public object StopContent { get; set; }
+        public object StoppingContent { get; set; }
+
+        public override object ProvideValue(IServiceProvider serviceProvider) => this;
+
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             switch ((ImportManager.ImportStatusOptions)value)
             {
-                case ImportManager.ImportStatusOptions.Idle: return "Start";
-                case ImportManager.ImportStatusOptions.Running: return "Stop";
-                case ImportManager.ImportStatusOptions.Stopping: return "Stopping";
+                case ImportManager.ImportStatusOptions.Idle: return StartContent ?? ApplicationData.Service.MainWindow?.Resources["Start"];
+                case ImportManager.ImportStatusOptions.Running: return StopContent ?? ApplicationData.Service.MainWindow?.Resources["Stop"];
+                case ImportManager.ImportStatusOptions.Stopping: return StopContent ?? ApplicationData.Service.MainWindow?.Resources["Hourglass"];
                 default: return null;
             }
         }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotSupportedException("Cannot convert back");
+        }
+    }
+
+    public class NotificationCountToMinHeightConverter : MarkupExtension, IValueConverter
+    {
+        public override object ProvideValue(IServiceProvider serviceProvider) => this;
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => ((int)value) == 0 ? 0 : 100;
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

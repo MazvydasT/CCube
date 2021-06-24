@@ -31,8 +31,8 @@ namespace CCube
         private ImportStatusOptions status = ImportStatusOptions.Idle;
         public ImportStatusOptions Status
         {
-            get { return status; }
-            private set { SetProperty(ref status, value); }
+            get => status;
+            private set => SetProperty(ref status, value);
         }
 
         private ErrorStatusOptions? ErrorStatus { get; set; } = null;
@@ -40,15 +40,15 @@ namespace CCube
         private ErrorStatusOptions? logInErrorStatus = null;
         public ErrorStatusOptions? LogInErrorStatus
         {
-            get { return logInErrorStatus; }
-            private set { SetProperty(ref logInErrorStatus, value); }
+            get => logInErrorStatus;
+            private set => SetProperty(ref logInErrorStatus, value);
         }
 
         private bool retryFailed = true;
         public bool RetryFailed
         {
-            get { return retryFailed; }
-            set { SetProperty(ref retryFailed, value); }
+            get => retryFailed;
+            set => SetProperty(ref retryFailed, value);
         }
 
         private LogIn LogInWindow => ApplicationData.Service.MainWindow.LogInWindow;

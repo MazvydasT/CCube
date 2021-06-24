@@ -40,7 +40,7 @@ namespace CCube
         private IEnumerable<Input> inputs;
         public IEnumerable<Input> Inputs
         {
-            get { return inputs ?? new Input[0]; }
+            get => inputs ?? new Input[0];
             set { if (SetProperty(ref inputs, value ?? new Input[0])) InputsViewSource.Source = inputs; }
         }
         public CollectionViewSource InputsViewSource { get; } = new CollectionViewSource();
@@ -58,7 +58,7 @@ namespace CCube
         private string userSetPathToCCCommandExe = @"C:\Program Files\Siemens\Tecnomatix_14.1\eMPower\eM-Planner\CCCommand.exe";
         public string UserSetPathToCCCommandExe
         {
-            get { return userSetPathToCCCommandExe; }
+            get => userSetPathToCCCommandExe;
             set
             {
                 if (Equals(userSetPathToCCCommandExe, value)) return;

@@ -15,36 +15,36 @@ namespace CCube
         private uint inputsTotal = 0;
         public uint InputsTotal
         {
-            get { return inputsTotal; }
-            set { SetProperty(ref inputsTotal, value, new[] { "EstimatedRemainingTime", "EstimatedTimeOfCompletion" }); }
+            get => inputsTotal;
+            set => SetProperty(ref inputsTotal, value, new[] { "EstimatedRemainingTime", "EstimatedTimeOfCompletion" });
         }
 
         private uint inputsWaiting = 0;
         public uint InputsWaiting
         {
-            get { return inputsWaiting; }
-            set { SetProperty(ref inputsWaiting, value); }
+            get => inputsWaiting;
+            set => SetProperty(ref inputsWaiting, value);
         }
 
         private uint inputsRunning = 0;
         public uint InputsRunning
         {
-            get { return inputsRunning; }
-            set { SetProperty(ref inputsRunning, value); }
+            get => inputsRunning;
+            set => SetProperty(ref inputsRunning, value);
         }
 
         private uint inputsSuccessful = 0;
         public uint InputsSuccessful
         {
-            get { return inputsSuccessful; }
-            set { SetProperty(ref inputsSuccessful, value, new[] { "InputsProcessed", "InputsSuccessfulRate" }); }
+            get => inputsSuccessful;
+            set => SetProperty(ref inputsSuccessful, value, new[] { "InputsProcessed", "InputsSuccessfulRate" });
         }
 
         private uint inputsFailed = 0;
         public uint InputsFailed
         {
-            get { return inputsFailed; }
-            set { SetProperty(ref inputsFailed, value, new[] { "InputsProcessed", "InputsSuccessfulRate" }); }
+            get => inputsFailed;
+            set => SetProperty(ref inputsFailed, value, new[] { "InputsProcessed", "InputsSuccessfulRate" });
         }
 
         public uint InputsProcessed => InputsSuccessful + InputsFailed;
@@ -58,8 +58,8 @@ namespace CCube
         private DateTime? importStartTime = null;
         public DateTime? ImportStartTime
         {
-            get { return importStartTime; }
-            set { SetProperty(ref importStartTime, value, new[] { "AverageIterationDuration", "EstimatedRemainingTime", "EstimatedTimeOfCompletion" }); }
+            get => importStartTime;
+            set => SetProperty(ref importStartTime, value, new[] { "AverageIterationDuration", "EstimatedRemainingTime", "EstimatedTimeOfCompletion" });
         }
 
         public TimeSpan? EstimatedRemainingTime => InputsTotal < 1 || AverageIterationDuration == null ? (TimeSpan?)null :
@@ -75,29 +75,29 @@ namespace CCube
         private uint iterationsTotal = 0;
         public uint IterationsTotal
         {
-            get { return iterationsTotal; }
-            set { SetProperty(ref iterationsTotal, value, "IterationsSuccessRate"); }
+            get => iterationsTotal;
+            set => SetProperty(ref iterationsTotal, value, "IterationsSuccessRate");
         }
 
         private uint iterationsSuccessful = 0;
         public uint IterationsSuccessful
         {
-            get { return iterationsSuccessful; }
-            set { SetProperty(ref iterationsSuccessful, value, "IterationsSuccessRate"); }
+            get => iterationsSuccessful;
+            set => SetProperty(ref iterationsSuccessful, value, "IterationsSuccessRate");
         }
 
         private uint iterationsSuccessfulSinceStart = 0;
         public uint IterationsSuccessfulSinceStart
         {
-            get { return iterationsSuccessfulSinceStart; }
-            set { SetProperty(ref iterationsSuccessfulSinceStart, value, new[] { "AverageIterationDuration", "EstimatedRemainingTime", "EstimatedTimeOfCompletion" }); }
+            get => iterationsSuccessfulSinceStart;
+            set => SetProperty(ref iterationsSuccessfulSinceStart, value, new[] { "AverageIterationDuration", "EstimatedRemainingTime", "EstimatedTimeOfCompletion" });
         }
 
         private uint iterationsFailed = 0;
         public uint IterationsFailed
         {
-            get { return iterationsFailed; }
-            set { SetProperty(ref iterationsFailed, value); }
+            get => iterationsFailed;
+            set => SetProperty(ref iterationsFailed, value);
         }
 
         public double IterationsSuccessRate => IterationsTotal == 0 ? 1 : (double)IterationsSuccessful / IterationsTotal;
@@ -105,8 +105,8 @@ namespace CCube
         private DateTime? latestIterationCompleteTime = null;
         public DateTime? LatestIterationCompleteTime
         {
-            get { return latestIterationCompleteTime; }
-            set { SetProperty(ref latestIterationCompleteTime, value, new[] { "AverageIterationDuration", "EstimatedRemainingTime", "EstimatedTimeOfCompletion" }); }
+            get => latestIterationCompleteTime;
+            set => SetProperty(ref latestIterationCompleteTime, value, new[] { "AverageIterationDuration", "EstimatedRemainingTime", "EstimatedTimeOfCompletion" });
         }
 
         public TimeSpan? AverageIterationDuration =>
