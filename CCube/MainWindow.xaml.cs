@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Forms;
 
@@ -58,6 +59,15 @@ namespace CCube
         private void FilterCheckBoxChanged(object sender, RoutedEventArgs e)
         {
             ApplicationData.Service.InputsViewSource.View.Refresh();
+        }
+
+        private void OpenLogFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "explorer.exe",
+                Arguments = Logger.LogDirectory
+            });
         }
     }
 }

@@ -82,10 +82,13 @@
     </ApplicationDefinition>
     <Compile Include="BindableBase.cs" />
     <Compile Include="Converters.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="ImportManager.cs" />
+    <Compile Include="Iteration.cs" />
     <Compile Include="LogIn.xaml.cs">
       <DependentUpon>LogIn.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Notification.cs" />
     <Compile Include="Stats.cs" />
     <Compile Include="SummaryDisplay.xaml.cs">
       <DependentUpon>SummaryDisplay.xaml</DependentUpon>
@@ -118,7 +121,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Notifier.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="ParamFileParsingNotification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

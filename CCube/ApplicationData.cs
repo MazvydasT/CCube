@@ -45,7 +45,7 @@ namespace CCube
         }
         public CollectionViewSource InputsViewSource { get; } = new CollectionViewSource();
 
-        public Notifier Notifier { get; } = Notifier.Service;
+        public Logger Notifier { get; } = Logger.Service;
 
         public ImportManager ImportManager { get; } = ImportManager.Service;
 

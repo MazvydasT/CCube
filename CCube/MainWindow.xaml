@@ -209,20 +209,36 @@
                     </Button.IsEnabled>
                 </Button>
             </Grid>
-            
-            <DataGrid AlternatingRowBackground="#FFD9D9D9" HorizontalGridLinesBrush="#FFD9D9D9" VerticalGridLinesBrush="#FFD9D9D9" x:Name="dataGridInputs" Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding InputsViewSource.View}" IsReadOnly="True" AlternationCount="2">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="#" Binding="{Binding SequenceNumber}"/>
-                    <DataGridTextColumn Header="Chunk name" Binding="{Binding ChunkName}"/>
-                    <DataGridTextColumn Header="Status" Binding="{Binding CurrentActiveIteration.CurrentStatus}"/>
-                    <DataGridTextColumn Header="Iteration" Binding="{Binding CurrentActiveIteration.IterationNumber}"/>
-                    <DataGridTextColumn Header="Start time" Binding="{Binding CurrentActiveIteration.StartTime}"/>
-                    <DataGridTextColumn Header="End time" Binding="{Binding CurrentActiveIteration.EndTime}"/>
-                    <DataGridTextColumn Header="Duration" Binding="{Binding CurrentActiveIteration.Duration, StringFormat={}{0:hh':'mm':'ss}}"/>
-                    <DataGridTextColumn Header="eMS project id" Binding="{Binding CCCommandParameters.ProjectId}"/>
-                    <DataGridTextColumn Header="eMS external id" Binding="{Binding CCCommandParameters.NodeExternalId}"/>
-                </DataGrid.Columns>
-            </DataGrid>
+
+            <Grid Grid.Row="1" Margin="0,0,2.5,2.5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <DataGrid AlternatingRowBackground="#FFD9D9D9" HorizontalGridLinesBrush="#FFD9D9D9" VerticalGridLinesBrush="#FFD9D9D9" x:Name="dataGridInputs" AutoGenerateColumns="False" ItemsSource="{Binding InputsViewSource.View}" IsReadOnly="True" AlternationCount="2">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="#" Binding="{Binding SequenceNumber}"/>
+                        <DataGridTextColumn Header="Chunk name" Binding="{Binding ChunkName}"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding CurrentActiveIteration.CurrentStatus}"/>
+                        <DataGridTextColumn Header="Iteration" Binding="{Binding CurrentActiveIteration.IterationNumber}"/>
+                        <DataGridTextColumn Header="Start time" Binding="{Binding CurrentActiveIteration.StartTime}"/>
+                        <DataGridTextColumn Header="End time" Binding="{Binding CurrentActiveIteration.EndTime}"/>
+                        <DataGridTextColumn Header="Duration" Binding="{Binding CurrentActiveIteration.Duration, StringFormat={}{0:hh':'mm':'ss}}"/>
+                        <DataGridTextColumn Header="eMS project id" Binding="{Binding CCCommandParameters.ProjectId}"/>
+                        <DataGridTextColumn Header="eMS external id" Binding="{Binding CCCommandParameters.NodeExternalId}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <Button x:Name="OpenLogFolderButton" Grid.Row="2" Height="25" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Margin="0,2.5,0,0" Click="OpenLogFolderButton_Click">
+                    <Button.Content>
+                        <TextBlock VerticalAlignment="Center">
+                            <Run Text="Open logs directory: "/>
+                            <Run Text="{x:Static local:Logger.LogDirectory}" FontStyle="Italic"/>
+                        </TextBlock>
+                    </Button.Content>
+                </Button>
+            </Grid>
             <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" Grid.ColumnSpan="3" />
             <GroupBox Header="Log" Grid.Row="3" Grid.ColumnSpan="3">
                 <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Notifier.Notifications}" SelectionMode="Single" IsReadOnly="True" Margin="0,1,0,0">

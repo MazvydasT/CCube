@@ -108,6 +108,8 @@ namespace CCube
                     input.CurrentActiveIteration.StartTime = DateTime.Now;
                     input.CurrentActiveIteration.CurrentStatus = Iteration.Status.Running;
 
+                    Logger.Service.LogImport(input);
+
                     Utils.GUIDispatcher.Invoke(() => { applicationDataService.InputsViewSource.View.Refresh(); });
 
                     --stats.InputsWaiting;
@@ -278,6 +280,8 @@ namespace CCube
 
             input.CurrentActiveIteration.EndTime = now;
             stats.LatestIterationCompleteTime = now;
+
+            Logger.Service.LogImport(input);
         }
     }
 }
