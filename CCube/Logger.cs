@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace CCube
 {
-    public class Logger : IDisposable
+    public class Logger
     {
         private Logger() { }
 
@@ -34,7 +34,7 @@ namespace CCube
             Notifications.Clear();
         }
 
-        private StreamWriter logWriter = null;
+        private TextWriter logWriter = null;
         public void Log(Notification notification)
         {
             try
@@ -43,15 +43,16 @@ namespace CCube
                 {
                     var logFileExists = File.Exists(LogFilePath);
 
-                    logWriter = new StreamWriter(LogFilePath, true);
+                    logWriter = TextWriter.Synchronized(new StreamWriter(new FileStream(LogFilePath, FileMode.Append, FileAccess.Write, FileShare.Read)));
 
                     if (!logFileExists)
                     {
                         logWriter.WriteLine("Timestamp,Type,Message");
                     }
                 }
-                
+
                 logWriter.WriteLine($"{DateTime.Now:G},{notification.NotificationType},{notification.Message.ToCSV()}");
+                logWriter.Flush();
             }
 
             catch { }
@@ -60,22 +61,23 @@ namespace CCube
         }
         public void Log(string message, Notification.NotificationTypes notificationType) { Log(new Notification(message, notificationType)); }
 
-        private StreamWriter importLogWriter = null;
+        private TextWriter importLogWriter = null;
         public void LogImport(Input input)
         {
             try
             {
-                if(importLogWriter == null)
+                if (importLogWriter == null)
                 {
                     var logFileExists = File.Exists(ImportLogFilePath);
+                    
+                    importLogWriter = TextWriter.Synchronized(new StreamWriter(new FileStream(ImportLogFilePath, FileMode.Append, FileAccess.Write, FileShare.Read)));
 
-                    importLogWriter = new StreamWriter(ImportLogFilePath, true);
-
-                    if(!logFileExists)
+                    if (!logFileExists)
                     {
                         importLogWriter.WriteLine(
                             $"Timestamp," +
-                            $"State," +
+                            $"Status," +
+                            $"Iteration," +
                             $"Start time," +
                             $"End time," +
                             $"Duration," +
@@ -89,28 +91,29 @@ namespace CCube
                     }
                 }
 
+                var currentIteration = input.CurrentActiveIteration;
+                var duration = currentIteration?.Duration;
+                var commandParams = input.CCCommandParameters;
+
                 importLogWriter.WriteLine(
                     $"{DateTime.Now:G}," +
-                    $"{input.LatestIteration?.CurrentStatus}," +
-                    $"{input.LatestIteration?.StartTime:G}," +
-                    $"{input.LatestIteration?.EndTime:G}," +
-                    $"{input.LatestIteration?.Duration?.ToString("0:hh':'mm':'ss")}," +
-                    $"{input.LatestIteration?.Message?.ToCSV()}," +
+                    $"{currentIteration?.CurrentStatus}," +
+                    $"{currentIteration?.IterationNumber}," +
+                    $"{currentIteration?.StartTime:G}," +
+                    $"{currentIteration?.EndTime:G}," +
+                    (duration == null ? "" : $"{Math.Floor(duration?.TotalHours ?? 0).ToString("00")}:{duration?.Minutes.ToString("00")}:{duration?.Seconds.ToString("00")}") + "," +
+                    $"{currentIteration?.Message?.ToCSV()}," +
                     $"{input.ChunkName?.ToCSV()}," +
-                    $"{input.CCCommandParameters.ProjectId}," +
-                    $"{input.CCCommandParameters.NodeExternalId?.ToCSV()}," +
-                    $"{input.LatestIteration?.ExecutionLogString?.ToCSV()}," +
-                    $"{input.PathToSourceFile}"
+                    $"{commandParams?.ProjectId}," +
+                    $"{commandParams?.NodeExternalId?.ToCSV()}," +
+                    $"{currentIteration?.ExecutionLogString?.ToCSV()}," +
+                    $"{input.PathToSourceFile.ToCSV()}"
                 );
+
+                importLogWriter.Flush();
             }
 
             catch { }
-        }
-
-        public void Dispose()
-        {
-            logWriter?.Dispose();
-            importLogWriter?.Dispose();
         }
     }
 }
