@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security;
@@ -7,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace CCube
@@ -65,6 +67,38 @@ namespace CCube
             statsService.Reset();
 
             statsService.InputsTotal = count;
+        }
+
+        public static void WriteParamsXML(IEnumerable<Input> inputs, string xmlPath)
+        {
+            if (!(inputs?.Any() ?? false)) return;
+
+            using (var fileStream = new FileStream(xmlPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read))
+            using (var streamWriter = new StreamWriter(fileStream))
+            using (var xmlWriter = XmlWriter.Create(streamWriter, new XmlWriterSettings()
+            {
+                Indent = true,
+                NewLineChars = "\n",
+                IndentChars = "\t"
+            }))
+            {
+                try
+                {
+                    xmlWriter.WriteStartElement("CCUpdateCalls");
+
+                    foreach (var input in inputs)
+                    {
+                        input.XMLElement.WriteTo(xmlWriter);
+                    }
+
+                    xmlWriter.WriteEndElement();
+                }
+
+                finally
+                {
+                    fileStream?.SetLength(fileStream?.Position ?? 0); // Trunkates existing file
+                }
+            }
         }
 
         public static CCCall CreateCCCall(XElement ccCallElement)

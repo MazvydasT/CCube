@@ -105,5 +105,20 @@ namespace CCube
         }
 
         public MainWindow MainWindow { get; set; }
+
+        bool exportVisibleParams = Properties.Settings.Default.VisibleParamsOut;
+        public bool ExportVisibleParams
+        {
+            get => exportVisibleParams;
+            set
+            {
+                if(SetProperty(ref exportVisibleParams, value))
+                {
+                    var properties = Properties.Settings.Default;
+                    properties.VisibleParamsOut = value;
+                    properties.Save();
+                }
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 
@@ -68,6 +69,31 @@ namespace CCube
                 FileName = "explorer.exe",
                 Arguments = Logger.LogDirectory
             });
+        }
+
+        private void ExportConfig_Click(object sender, RoutedEventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "CC Update Console parameters file (*.xml)|*.xml",
+                OverwritePrompt = true
+            };
+
+            if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return;
+
+            var service = ApplicationData.Service;
+
+            var inputsToExport = service.ExportVisibleParams ? service.InputsViewSource.View.Cast<Input>() : dataGridInputs.SelectedItems.Cast<Input>();
+
+            try
+            {
+                Utils.WriteParamsXML(inputsToExport, saveFileDialog.FileName);
+            }
+
+            catch(Exception exception)
+            {
+                Logger.Service.Log(exception.Message, Notification.NotificationTypes.Error);
+            }
         }
     }
 }

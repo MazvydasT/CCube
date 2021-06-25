@@ -83,6 +83,18 @@ namespace CCube
         }
     }
 
+    public class ParamsOutVisibleConverter : MarkupExtension, IValueConverter
+    {
+        public override object ProvideValue(IServiceProvider serviceProvider) => this;
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => !((bool)value);
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotSupportedException("Cannot convert back");
+        }
+    }
+
     public class StartStopButtonEnabledConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)

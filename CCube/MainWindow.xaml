@@ -55,6 +55,12 @@
                 <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M360,0L24,0C10.745,0,0,10.745,0,24L0,40C0,53.255 10.745,64 24,64 24,154.965 75.016,231.734 144.842,256 75.016,280.266 24,357.035 24,448 10.745,448 0,458.745 0,472L0,488C0,501.255,10.745,512,24,512L360,512C373.255,512,384,501.255,384,488L384,472C384,458.745 373.255,448 360,448 360,357.035 308.984,280.266 239.158,256 308.984,231.734 360,154.965 360,64 373.255,64 384,53.255 384,40L384,24C384,10.745,373.255,0,360,0z M284.922,384L99.08,384C116.139,337.203 151.176,304 192,304 232.821,304 267.862,337.196 284.922,384z M284.941,128L99.078,128C91.988,108.548,88,86.748,88,64L296,64C296,86.805,292.013,108.587,284.941,128z"/>
             </Canvas>
         </Viewbox>
+
+        <Viewbox x:Key="XMLFile" x:Shared="False">
+            <Canvas Width="384" Height="512">
+                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M149.9,349.1L149.7,348.9 116.9,320 149.7,291.1C153.3,287.9,153.7,282.3,150.5,278.7L150.3,278.5 132.9,259.9C129.5,256.3,123.9,256.2,120.5,259.5L62.8,313.6C59.1,317.1,59.1,323,62.8,326.4L120.5,380.5C122.1,382 124.3,382.9 126.5,382.9 128.9,382.9 131.3,381.9 132.9,380.1L150.3,361.5C153.6,358,153.4,352.4,149.9,349.1z M369.9,97.9L286,14C277,5,264.8,-0.1,252.1,-0.1L48,-0.1C21.5,0,0,21.5,0,48L0,464C0,490.5,21.5,512,48,512L336,512C362.5,512,384,490.5,384,464L384,131.9C384,119.2,378.9,106.9,369.9,97.9z M256,51.9L332.1,128 256,128z M336,464L48,464 48,48 208,48 208,152C208,165.3,218.7,176,232,176L336,176z M209.6,214C204.9,212.6,200.1,215.3,198.7,220L144,408.1C142.6,412.8,145.3,417.7,150,419L174.4,426.1C179.1,427.5,184,424.7,185.3,420.1L240,231.9C241.4,227.2,238.7,222.3,234,221z M234.1,290.9L234.3,291.1 267.1,320 234.3,348.9C230.7,352.1,230.3,357.7,233.5,361.3L233.7,361.5 251.1,380.1C254.4,383.6,260,383.8,263.5,380.5L321.2,326.4C324.9,322.9,324.9,317,321.2,313.6L263.5,259.5C260,256.2,254.4,256.3,251.1,259.9L233.7,278.5C230.4,282,230.6,287.6,234.1,290.9z"/>
+            </Canvas>
+        </Viewbox>
     </Window.Resources>
     <Grid>
         <local:LogIn Visibility="Hidden" x:Name="LogInWindow" Panel.ZIndex="1"/>
@@ -230,14 +236,32 @@
                     </DataGrid.Columns>
                 </DataGrid>
 
-                <Button x:Name="OpenLogFolderButton" Grid.Row="2" Height="25" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Margin="0,2.5,0,0" Click="OpenLogFolderButton_Click">
-                    <Button.Content>
-                        <TextBlock VerticalAlignment="Center">
-                            <Run Text="Open logs directory: "/>
+                <Grid Grid.Row="2" Margin="0,2.5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="OpenLogFolderButton" Height="25" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Click="OpenLogFolderButton_Click" Margin="0,0,2.5,0">
+                        <Button.Content>
+                            <TextBlock VerticalAlignment="Center">
+                            <Run Text="Open log directory: "/>
                             <Run Text="{x:Static local:Logger.LogDirectory}" FontStyle="Italic"/>
-                        </TextBlock>
-                    </Button.Content>
-                </Button>
+                            </TextBlock>
+                        </Button.Content>
+                    </Button>
+
+                    <GroupBox x:Name="ParamsOutOptions"  Header="Params out"  HorizontalAlignment="Right" Grid.Column="1">
+                        <StackPanel>
+                            <RadioButton IsChecked="{Binding ExportVisibleParams}" Content="Visible" GroupName="ParamsOut"/>
+                            <RadioButton IsChecked="{Binding ExportVisibleParams, Mode=OneWay, Converter={local:ParamsOutVisibleConverter}}" Content="Selected" GroupName="ParamsOut"/>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <Button x:Name="ExportConfig" Content="{StaticResource XMLFile}" ToolTip="Export parameters file" Grid.Column="2" Height="35" Width="35" Margin="2.5,0,0,0" Click="ExportConfig_Click"/>
+                </Grid>
+
             </Grid>
             <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" Grid.ColumnSpan="3" />
             <GroupBox Header="Log" Grid.Row="3" Grid.ColumnSpan="3">
