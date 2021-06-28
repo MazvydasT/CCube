@@ -66,9 +66,9 @@
         </Viewbox>
     </Window.Resources>
     <Grid>
-        <local:LogIn Visibility="Hidden" x:Name="LogInWindow" Panel.ZIndex="1"/>
+        <local:LogIn KeyboardNavigation.TabNavigation="Cycle" Visibility="Hidden" x:Name="LogInWindow" Panel.ZIndex="1"/>
 
-        <Grid Margin="8">
+        <Grid Margin="8" KeyboardNavigation.TabNavigation="Cycle">
             <Grid.Effect>
                 <BlurEffect>
                     <BlurEffect.Radius>
@@ -351,7 +351,7 @@
 
                         <DataGrid AlternatingRowBackground="#FFD9D9D9" VerticalGridLinesBrush="#FFD9D9D9" HorizontalGridLinesBrush="#FFD9D9D9" ItemsSource="{Binding Iterations}" AutoGenerateColumns="False" IsReadOnly="True" AlternationCount="2" SelectionUnit="Cell" Margin="0,8,0,0" >
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="#" Binding="{Binding IterationNumber}" SortDirection="Descending"/>
+                                <DataGridTextColumn Header="#" Binding="{Binding IterationNumber}" SortDirection="Ascending"/>
                                 <DataGridTextColumn Header="Status" Binding="{Binding CurrentStatus}"/>
                                 <DataGridTextColumn Header="Start time" Binding="{Binding StartTime}"/>
                                 <DataGridTextColumn Header="Duration" Binding="{Binding Duration, StringFormat={}{0:hh':'mm':'ss}}"/>

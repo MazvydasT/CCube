@@ -154,7 +154,7 @@ namespace CCube
         {
             if (depObj != null)
             {
-                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                for (int i = 0, c = VisualTreeHelper.GetChildrenCount(depObj); i < c; i++)
                 {
                     DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
                     if (child != null && child is T t)

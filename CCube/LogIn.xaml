@@ -39,7 +39,7 @@
             </StackPanel>
         </GroupBox>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid Background="WhiteSmoke" Opacity="0.75" Grid.RowSpan="2"/>
 
@@ -55,9 +55,7 @@
                 </Grid.Effect>
             </Grid>
 
-            
-
-            <ItemsControl ItemsSource="{Binding ElementName=root, Path=LogInGroupDataSet}">
+            <ItemsControl ItemsSource="{Binding ElementName=root, Path=LogInGroupDataSet}" IsTabStop="False">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel VerticalAlignment="Top"/>
@@ -65,12 +63,12 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <ContentControl Margin="0,2.5" Content="{StaticResource loginFieldGroup}"/>
+                        <ContentControl IsTabStop="False" Margin="0,2.5" Content="{StaticResource loginFieldGroup}"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <Button Content="{StaticResource Back}" Grid.Row="1" Height="35" Width="35" HorizontalAlignment="Center" Click="Button_Click" ToolTip="Go back"/>
+            <Button Content="{StaticResource Back}" IsCancel="True" Grid.Row="1" Height="35" Width="35" HorizontalAlignment="Center" Click="Button_Click" ToolTip="Go back"/>
         </Grid>
     </Grid>
 </UserControl>

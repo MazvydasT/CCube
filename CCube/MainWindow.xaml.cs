@@ -54,6 +54,7 @@ namespace CCube
             else importManager.Kill();
         }
 
+        
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             LogInWindow.Visibility = Visibility.Visible;

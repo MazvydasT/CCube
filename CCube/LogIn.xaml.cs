@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Security;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -158,7 +159,17 @@ namespace CCube
         public LogIn()
         {
             InitializeComponent();
+
+            IsVisibleChanged += LogIn_IsVisibleChanged;
         }
+
+        TextBox firstLoginTextField = null;
+        async void LogIn_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            await Task.Run(() => Dispatcher.Invoke(() => (firstLoginTextField ?? (firstLoginTextField = Utils.FindVisualChildren<TextBox>(this).FirstOrDefault()))?.Focus()));
+        }
+
+        
 
         private void Button_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
