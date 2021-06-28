@@ -15,50 +15,53 @@
         <local:TitleValueConverter x:Key="TitleValueConverter"/>
         <local:StartStopButtonEnabledConverter x:Key="StartStopButtonEnabledConverter"/>
         <local:VisibilityToBlurRadiusConverter x:Key="VisibilityToBlurRadiusConverter"/>
-        <local:ImportStatusToVisibilityConverter x:Key="ImportStatusToVisibilityConverter"/>
         <local:ProgressMaxValueToVisibilityConverter x:Key="ProgressMaxValueToVisibilityConverter"/>
 
-        <SolidColorBrush x:Key="BlackBrush" Color="Black" x:Shared="False"/>
-
         <Viewbox x:Key="Replace" x:Shared="False">
-            <Canvas Width="640" Height="512">
-                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M629.657,343.598L528.971,444.284C519.598,453.656,504.403,453.656,495.03,444.284L394.343,343.598C384.97,334.225,384.97,319.029,394.343,309.657L405.166,298.834C414.728,289.272,430.299,289.494,439.585,299.326L480,342.118 480,160 292.451,160A24.005,24.005,0,0,1,275.48,152.971L259.48,136.971C244.361,121.851,255.069,96,276.451,96L520,96C533.255,96,544,106.745,544,120L544,342.118 584.416,299.326C593.701,289.495,609.272,289.272,618.835,298.834L629.658,309.657C639.03,319.029,639.03,334.226,629.657,343.598z M364.519,359.029A23.999,23.999,0,0,0,347.548,352L160,352 160,169.881 200.416,212.673C209.702,222.504,225.272,222.727,234.835,213.164L245.657,202.342C255.03,192.969,255.03,177.773,245.657,168.401L144.971,67.716C135.598,58.343,120.402,58.343,111.03,67.716L10.343,168.402C0.970000000000001,177.775,0.970000000000001,192.971,10.343,202.343L21.165,213.165C30.727,222.727,46.298,222.505,55.584,212.674L96,169.881 96,392C96,405.255,106.745,416,120,416L363.549,416C384.931,416,395.639,390.149,380.52,375.029L364.519,359.029z"/>
+            <Canvas Width="384" Height="512">
+                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M224,136L224,0 24,0C10.7,0,0,10.7,0,24L0,488C0,501.3,10.7,512,24,512L360,512C373.3,512,384,501.3,384,488L384,160 248,160C234.8,160,224,149.2,224,136z M289.18,352.01L224,352.01 224,432.01C224,440.85,216.84,448.01,208,448.01L176,448.01C167.16,448.01,160,440.85,160,432.01L160,352.01 94.82,352.01C80.54,352.01,73.41,334.72,83.55,324.65L179.97,228.95C186.62,222.34,197.36,222.34,204.01,228.95L300.43,324.65C310.58,334.72,303.46,352.01,289.18,352.01z M377,105L279.1,7C274.6,2.5,268.5,0,262.1,0L256,0 256,128 384,128 384,121.9C384,115.6,381.5,109.5,377,105z"/>
             </Canvas>
         </Viewbox>
 
         <Viewbox x:Key="Add" x:Shared="False">
-            <Canvas Width="448" Height="512">
-                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M352,240L352,272C352,278.6,346.6,284,340,284L252,284 252,372C252,378.6,246.6,384,240,384L208,384C201.4,384,196,378.6,196,372L196,284 108,284C101.4,284,96,278.6,96,272L96,240C96,233.4,101.4,228,108,228L196,228 196,140C196,133.4,201.4,128,208,128L240,128C246.6,128,252,133.4,252,140L252,228 340,228C346.6,228,352,233.4,352,240z M448,80L448,432C448,458.5,426.5,480,400,480L48,480C21.5,480,0,458.5,0,432L0,80C0,53.5,21.5,32,48,32L400,32C426.5,32,448,53.5,448,80z M400,426L400,86C400,82.7,397.3,80,394,80L54,80C50.7,80,48,82.7,48,86L48,426C48,429.3,50.7,432,54,432L394,432C397.3,432,400,429.3,400,426z"/>
+            <Canvas Width="384" Height="512">
+                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M377,105L279.1,7C274.6,2.5,268.5,0,262.1,0L256,0 256,128 384,128 384,121.9C384,115.6,381.5,109.5,377,105z M224,136L224,0 24,0C10.7,0,0,10.7,0,24L0,488C0,501.3,10.7,512,24,512L360,512C373.3,512,384,501.3,384,488L384,160 248,160C234.8,160,224,149.2,224,136z M288,296L288,344C288,348.4,284.4,352,280,352L224,352 224,408C224,412.4,220.4,416,216,416L168,416C163.6,416,160,412.4,160,408L160,352 104,352C99.6,352,96,348.4,96,344L96,296C96,291.6,99.6,288,104,288L160,288 160,232C160,227.6,163.6,224,168,224L216,224C220.4,224,224,227.6,224,232L224,288 280,288C284.4,288,288,291.6,288,296z"/>
             </Canvas>
         </Viewbox>
 
         <Viewbox x:Key="User" x:Shared="False">
-            <Canvas Width="448" Height="512">
-                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M313.6,304C284.9,304 271.1,320 224,320 176.9,320 163.2,304 134.4,304 60.2,304 0,364.2 0,438.4L0,464C0,490.5,21.5,512,48,512L400,512C426.5,512,448,490.5,448,464L448,438.4C448,364.2,387.8,304,313.6,304z M400,464L48,464 48,438.4C48,390.8 86.8,352 134.4,352 149,352 172.7,368 224,368 275.7,368 298.9,352 313.6,352 361.2,352 400,390.8 400,438.4L400,464z M224,288C303.5,288 368,223.5 368,144 368,64.5 303.5,0 224,0 144.5,0 80,64.5 80,144 80,223.5 144.5,288 224,288z M224,48C276.9,48 320,91.1 320,144 320,196.9 276.9,240 224,240 171.1,240 128,196.9 128,144 128,91.1 171.1,48 224,48z"/>
+            <Canvas Width="496" Height="512">
+                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M248,8C111,8 0,119 0,256 0,393 111,504 248,504 385,504 496,393 496,256 496,119 385,8 248,8z M248,104C296.6,104 336,143.4 336,192 336,240.6 296.6,280 248,280 199.4,280 160,240.6 160,192 160,143.4 199.4,104 248,104z M248,448C189.3,448 136.7,421.4 101.5,379.8 120.3,344.4 157.1,320 200,320 202.4,320 204.8,320.4 207.1,321.1 220.1,325.3 233.7,328 248,328 262.3,328 276,325.3 288.9,321.1 291.2,320.4 293.6,320 296,320 338.9,320 375.7,344.4 394.5,379.8 359.3,421.4 306.7,448 248,448z"/>
             </Canvas>
         </Viewbox>
 
         <Viewbox x:Key="Start" x:Shared="False">
-            <Canvas Width="448" Height="512">
-                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M424.4,214.7L72.4,6.6C43.8,-10.3,0,6.1,0,47.9L0,464C0,501.5,40.7,524.1,72.4,505.3L424.4,297.3C455.8,278.8,455.9,233.2,424.4,214.7z"/>
+            <Canvas Width="512" Height="512">
+                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M371.7,238L195.7,131C179.9,122.2,160,133.5,160,152L160,360C160,378.4,179.8,389.8,195.7,381L371.7,280C388.1,270.9,388.1,247.2,371.7,238z M504,256C504,119 393,8 256,8 119,8 8,119 8,256 8,393 119,504 256,504 393,504 504,393 504,256z M56,256C56,145.5 145.5,56 256,56 366.5,56 456,145.5 456,256 456,366.5 366.5,456 256,456 145.5,456 56,366.5 56,256z"/>
             </Canvas>
         </Viewbox>
 
         <Viewbox x:Key="Stop" x:Shared="False">
-            <Canvas Width="448" Height="512">
-                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M400,32L48,32C21.5,32,0,53.5,0,80L0,432C0,458.5,21.5,480,48,480L400,480C426.5,480,448,458.5,448,432L448,80C448,53.5,426.5,32,400,32z"/>
+            <Canvas Width="512" Height="512">
+                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M504,256C504,119 393,8 256,8 119,8 8,119 8,256 8,393 119,504 256,504 393,504 504,393 504,256z M56,256C56,145.5 145.5,56 256,56 366.5,56 456,145.5 456,256 456,366.5 366.5,456 256,456 145.5,456 56,366.5 56,256z M352,176L352,336C352,344.8,344.8,352,336,352L176,352C167.2,352,160,344.8,160,336L160,176C160,167.2,167.2,160,176,160L336,160C344.8,160,352,167.2,352,176z"/>
             </Canvas>
         </Viewbox>
 
         <Viewbox x:Key="Hourglass" x:Shared="False">
-            <Canvas Width="384" Height="512">
-                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M360,0L24,0C10.745,0,0,10.745,0,24L0,40C0,53.255 10.745,64 24,64 24,154.965 75.016,231.734 144.842,256 75.016,280.266 24,357.035 24,448 10.745,448 0,458.745 0,472L0,488C0,501.255,10.745,512,24,512L360,512C373.255,512,384,501.255,384,488L384,472C384,458.745 373.255,448 360,448 360,357.035 308.984,280.266 239.158,256 308.984,231.734 360,154.965 360,64 373.255,64 384,53.255 384,40L384,24C384,10.745,373.255,0,360,0z M284.922,384L99.08,384C116.139,337.203 151.176,304 192,304 232.821,304 267.862,337.196 284.922,384z M284.941,128L99.078,128C91.988,108.548,88,86.748,88,64L296,64C296,86.805,292.013,108.587,284.941,128z"/>
+            <Canvas Width="448" Height="512">
+                <Path x:Name="HourglassViewbox"  Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M432,304C432,418.9 338.9,512 224,512 109.1,512 16,418.9 16,304 16,200 92.3,113.8 192,98.5L192,64 164,64C157.4,64,152,58.6,152,52L152,12C152,5.4,157.4,0,164,0L284,0C290.6,0,296,5.4,296,12L296,52C296,58.6,290.6,64,284,64L256,64 256,98.5C293.5,104.3,327.7,120.1,355.7,143.1L383.2,115.6C387.9,110.9,395.5,110.9,400.2,115.6L428.5,143.9C433.2,148.6,433.2,156.2,428.5,160.9L399.1,190.3 398.5,190.9C419.7,223.3,432,262.2,432,304z M256,340L256,188.5C256,181.9,250.6,176.5,244,176.5L204,176.5C197.4,176.5,192,181.9,192,188.5L192,340C192,346.6,197.4,352,204,352L244,352C250.6,352,256,346.6,256,340z"/>
+            </Canvas>
+        </Viewbox>
+
+        <Viewbox x:Key="Skull" x:Shared="False">
+            <Canvas Width="448" Height="512">
+                <Path x:Name="SkullViewbox" Fill="Black" Data="M439.15,453.06L297.17,384 439.16,314.94C447.06,310.99,450.27,301.38,446.31,293.48L432,264.85C428.05,256.95,418.44,253.74,410.53,257.69L224,348.41 37.47,257.69C29.57,253.74,19.96,256.94,16,264.85L1.69,293.48C-2.26,301.38,0.94,310.99,8.84,314.94L150.83,384 8.85,453.06C0.949999999999999,457.01,-2.26,466.62,1.7,474.53L16.01,503.16C19.96,511.06,29.57,514.27,37.48,510.31L224,419.59 410.53,510.31C418.43,514.26,428.04,511.06,432,503.16L446.31,474.53C450.26,466.62,447.05,457.01,439.15,453.06z M150,237.28L144.52,263.15C141.85,275.77,149.94,288,160.97,288L287.05,288C298.08,288,306.17,275.77,303.5,263.15L298,237.28C339.78,214.87 368,174.53 368,128 368,57.31 303.53,0 224,0 144.47,0 80,57.31 80,128 80,174.53 108.22,214.87 150,237.28z M280,112C297.65,112 312,126.35 312,144 312,161.65 297.65,176 280,176 262.35,176 248,161.65 248,144 248,126.35 262.35,112 280,112z M168,112C185.65,112 200,126.35 200,144 200,161.65 185.65,176 168,176 150.35,176 136,161.65 136,144 136,126.35 150.35,112 168,112z"/>
             </Canvas>
         </Viewbox>
 
         <Viewbox x:Key="XMLFile" x:Shared="False">
             <Canvas Width="384" Height="512">
-                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M149.9,349.1L149.7,348.9 116.9,320 149.7,291.1C153.3,287.9,153.7,282.3,150.5,278.7L150.3,278.5 132.9,259.9C129.5,256.3,123.9,256.2,120.5,259.5L62.8,313.6C59.1,317.1,59.1,323,62.8,326.4L120.5,380.5C122.1,382 124.3,382.9 126.5,382.9 128.9,382.9 131.3,381.9 132.9,380.1L150.3,361.5C153.6,358,153.4,352.4,149.9,349.1z M369.9,97.9L286,14C277,5,264.8,-0.1,252.1,-0.1L48,-0.1C21.5,0,0,21.5,0,48L0,464C0,490.5,21.5,512,48,512L336,512C362.5,512,384,490.5,384,464L384,131.9C384,119.2,378.9,106.9,369.9,97.9z M256,51.9L332.1,128 256,128z M336,464L48,464 48,48 208,48 208,152C208,165.3,218.7,176,232,176L336,176z M209.6,214C204.9,212.6,200.1,215.3,198.7,220L144,408.1C142.6,412.8,145.3,417.7,150,419L174.4,426.1C179.1,427.5,184,424.7,185.3,420.1L240,231.9C241.4,227.2,238.7,222.3,234,221z M234.1,290.9L234.3,291.1 267.1,320 234.3,348.9C230.7,352.1,230.3,357.7,233.5,361.3L233.7,361.5 251.1,380.1C254.4,383.6,260,383.8,263.5,380.5L321.2,326.4C324.9,322.9,324.9,317,321.2,313.6L263.5,259.5C260,256.2,254.4,256.3,251.1,259.9L233.7,278.5C230.4,282,230.6,287.6,234.1,290.9z"/>
+                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M384,121.941L384,128 256,128 256,0 262.059,0C268.424,0,274.529,2.529,279.03,7.029L376.971,104.97A24.005,24.005,0,0,1,384,121.941z M248,160C234.8,160,224,149.2,224,136L224,0 24,0C10.745,0,0,10.745,0,24L0,488C0,501.255,10.745,512,24,512L360,512C373.255,512,384,501.255,384,488L384,160 248,160z M123.206,400.505A5.4,5.4,0,0,1,115.573,400.751L50.707,339.939A5.4,5.4,0,0,1,50.707,332.06L115.573,271.248A5.4,5.4,0,0,1,123.206,271.494L142.785,292.379A5.4,5.4,0,0,1,142.413,300.126L101.65,336 142.413,371.874A5.4,5.4,0,0,1,142.785,379.621L123.206,400.505z M174.501,450.984L147.048,443.014A5.402,5.402,0,0,1,143.367,436.322L204.807,224.696A5.402,5.402,0,0,1,211.499,221.015L238.951,228.985A5.4,5.4,0,0,1,242.631,235.677L181.191,447.303A5.397,5.397,0,0,1,174.501,450.984z M335.293,339.939L270.427,400.751A5.4,5.4,0,0,1,262.794,400.505L243.214,379.62A5.4,5.4,0,0,1,243.586,371.873L284.35,336 243.587,300.126A5.4,5.4,0,0,1,243.215,292.379L262.795,271.494A5.4,5.4,0,0,1,270.428,271.248L335.294,332.06A5.4,5.4,0,0,1,335.293,339.939z"/>
             </Canvas>
         </Viewbox>
     </Window.Resources>
@@ -96,8 +99,8 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel>
-                    <Button Visibility="{Binding ImportManager.Status, Converter={StaticResource ImportStatusToVisibilityConverter}}" Content="{StaticResource Replace}" ToolTip="Replace existing items" Click="ButtonBrowse_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="35" Height="35"/>
-                    <Button x:Name="insertButton" Visibility="{Binding ImportManager.Status, Converter={StaticResource ImportStatusToVisibilityConverter}}" Content="{StaticResource Add}" ToolTip="Add items" Click="ButtonBrowse_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,5,0,0" Width="35" Height="35"/>
+                    <Button IsEnabled="{Binding ImportManager.Status, Converter={local:ImportStatusToEnabledConverter}}" Content="{StaticResource Replace}" ToolTip="Replace existing items" Click="ButtonBrowse_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="35" Height="35"/>
+                    <Button x:Name="insertButton" IsEnabled="{Binding ImportManager.Status, Converter={local:ImportStatusToEnabledConverter}}" Content="{StaticResource Add}" ToolTip="Add items" Click="ButtonBrowse_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,5,0,0" Width="35" Height="35"/>
                 </StackPanel>
 
                 <Grid Grid.Column="1" Margin="8,0">
@@ -203,14 +206,21 @@
                     </WrapPanel>
                 </Grid>
 
-                <Button Grid.Column="2" Visibility="{Binding ImportManager.Status, Converter={StaticResource ImportStatusToVisibilityConverter}}" Content="{StaticResource User}" ToolTip="Login credentials" Click="Button_Click" Margin="0,0,8,0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="35" Height="35"/>
+                <Button Grid.Column="2" IsEnabled="{Binding ImportManager.Status, Converter={local:ImportStatusToEnabledConverter}}" Content="{StaticResource User}" ToolTip="Login credentials" Click="Button_Click" Margin="0,0,8,0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="35" Height="35"/>
                 <Button Grid.Column="3" x:Name="goButton"
-                        Content="{Binding ImportManager.Status, Converter={local:ImportStatusToContentConverter}}"
-                        ToolTip="{Binding ImportManager.Status, Converter={local:ImportStatusToContentConverter StartContent=Start, StopContent=Stop, StoppingContent=Stopping}}"
+                        ToolTip="{Binding ImportManager.Status, Converter={local:ImportStatusToContentConverter StartContent='Start', StopContent='Stop and wait for current chunk import to complete', StoppingContent='Waiting for current chunk import to complete, click to force stop'}}"
                         Click="GoButton_Click" HorizontalAlignment="Center" VerticalAlignment="Top" Width="35" Height="35">
+                    <Button.Content>
+                        <MultiBinding Converter="{local:ImportStatusToContentConverter}">
+                            <Binding Path="ImportManager.Status"/>
+                            <Binding RelativeSource="{RelativeSource Mode=Self}" Path="IsMouseOver"/>
+                            <Binding RelativeSource="{RelativeSource Mode=Self}" Path="IsEnabled"/>
+                        </MultiBinding>
+                    </Button.Content>
                     <Button.IsEnabled>
                         <MultiBinding Converter="{StaticResource StartStopButtonEnabledConverter}">
                             <Binding Path="ImportManager.Status"/>
+                            <Binding Path="ImportManager.KillCooldown"/>
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
@@ -252,14 +262,17 @@
                         </Button.Content>
                     </Button>
 
-                    <GroupBox x:Name="ParamsOutOptions"  Header="Params out"  HorizontalAlignment="Right" Grid.Column="1">
-                        <StackPanel>
-                            <RadioButton IsChecked="{Binding ExportVisibleParams}" Content="Visible" GroupName="ParamsOut"/>
-                            <RadioButton IsChecked="{Binding ExportVisibleParams, Mode=OneWay, Converter={local:ParamsOutVisibleConverter}}" Content="Selected" GroupName="ParamsOut"/>
+                    <GroupBox x:Name="ParamsOutOptions"  Header="Export parameters"  Grid.Column="2">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <StackPanel>
+                                <RadioButton IsChecked="{Binding ExportVisibleParams}" Content="Visible" GroupName="ParamsOut"/>
+                                <RadioButton IsChecked="{Binding ExportVisibleParams, Mode=OneWay, Converter={local:ParamsOutVisibleConverter}}" Content="Selected" GroupName="ParamsOut"/>
+                            </StackPanel>
+
+                            <Button x:Name="ExportConfig" IsEnabled="{Binding ImportManager.Status, Converter={local:ImportStatusToEnabledConverter}}" Content="{StaticResource XMLFile}" VerticalAlignment="Center" ToolTip="Export parameters file" Height="35" Width="35" Margin="5,0,0,0" Click="ExportConfig_Click"/>
                         </StackPanel>
                     </GroupBox>
 
-                    <Button x:Name="ExportConfig" Content="{StaticResource XMLFile}" ToolTip="Export parameters file" Grid.Column="2" Height="35" Width="35" Margin="2.5,0,0,0" Click="ExportConfig_Click"/>
                 </Grid>
 
             </Grid>
@@ -308,7 +321,7 @@
 
                     </Expander>
 
-                    <Expander Header="Current iteration">
+                    <Expander Header="Current iteration" IsExpanded="True">
 
                         <local:SummaryDisplay Margin="0,8,0,0">
                             <local:SummaryDisplay.DataContext>

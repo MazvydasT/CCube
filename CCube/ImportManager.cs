@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Timers;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -51,13 +52,58 @@ namespace CCube
             set => SetProperty(ref retryFailed, value);
         }
 
+        private int killCooldown = 0;
+        public int KillCooldown
+        {
+            get => killCooldown;
+            set => SetProperty(ref killCooldown, value);
+        }
+
         private LogIn LogInWindow => ApplicationData.Service.MainWindow.LogInWindow;
 
         private int noNetworkWaitTimeInMinutes = 1;
 
+        private Process currentProces;
+        private Input currentInput;
+
         private ImportManager() { }
 
-        public void Stop() { Status = ImportStatusOptions.Stopping; }
+        public void Stop()
+        {
+            Status = ImportStatusOptions.Stopping;
+
+            KillCooldown = 3;
+
+            var timer = new System.Timers.Timer(1000)
+            {
+                AutoReset = true
+            };
+
+            timer.Elapsed += (object sender, ElapsedEventArgs e) =>
+            {
+                --KillCooldown;
+
+                if (KillCooldown == 0) timer.Stop();
+            };
+
+            timer.Start();
+        }
+
+        public void Kill()
+        {
+            lock (this)
+            {
+                try
+                {
+                    currentProces?.Kill();
+                }
+
+                finally
+                {
+                    currentProces = null;
+                }
+            }
+        }
 
         public Task Start(IEnumerable<Input> inputs = null)
         {
@@ -115,29 +161,65 @@ namespace CCube
                     --stats.InputsWaiting;
                     ++stats.InputsRunning;
 
-                    var process = Process.Start(new ProcessStartInfo()
-                    {
-                        FileName = ApplicationData.Service.PathToCCCommandExe,
-                        Arguments = $"syncNode -EmsUser {emsUserName} -EmsPsswd {Utils.SecureStringToString(emsPassword)} -TcUser {tceUserName} -TcPsswd {Utils.SecureStringToString(tcePassword)} {input.CCCommandParameters}",
-                        UseShellExecute = false,
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true,
-                        CreateNoWindow = true
-                    });
+                    Process process = null;
 
-                    var standardOutput = process.StandardOutput;
                     var standardOuputLines = new List<string>();
-                    while (!standardOutput.EndOfStream)
+
+                    try
                     {
-                        standardOuputLines.Add(standardOutput.ReadLine());
-                        input.CurrentActiveIteration.ExecutionLog = standardOuputLines.ToArray();
+                        process = Process.Start(new ProcessStartInfo()
+                        {
+                            FileName = ApplicationData.Service.PathToCCCommandExe,
+                            Arguments = $"syncNode -EmsUser {emsUserName} -EmsPsswd {Utils.SecureStringToString(emsPassword)} -TcUser {tceUserName} -TcPsswd {Utils.SecureStringToString(tcePassword)} {input.CCCommandParameters}",
+                            UseShellExecute = false,
+                            RedirectStandardOutput = true,
+                            RedirectStandardError = true,
+                            CreateNoWindow = true
+                        });
+
+
+                        lock (this)
+                        {
+                            currentProces = process;
+                            currentInput = input;
+                        }
+
+                        var standardOutput = process.StandardOutput;
+
+                        while (!standardOutput.EndOfStream)
+                        {
+                            standardOuputLines.Add(standardOutput.ReadLine());
+                        }
+
+                        if (process.ExitCode == -1)
+                        {
+                            standardOuputLines.AddRange(new[]
+                            {
+                                "Exception",
+                                "Import terminated by user."
+                            });
+                        }
                     }
 
-                    if (!process.HasExited)
+                    catch (Exception e)
+                    {
+                        Stop();
+
+                        standardOuputLines.AddRange(new[]
+                        {
+                            "Exception",
+                            e.Message,
+                            $"Could not start '{ApplicationData.Service.PathToCCCommandExe}'. Make sure it is installed and its directory is added to PATH system variable."
+                        });
+                    }
+
+                    input.CurrentActiveIteration.ExecutionLog = standardOuputLines.ToArray();
+
+                    if (!(process?.HasExited ?? true))
                     {
                         try
                         {
-                            process.Kill();
+                            process?.Kill();
                         }
 
                         catch (Exception) { }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
@@ -33,12 +34,12 @@ namespace CCube
         }
     }
 
-    public class ImportStatusToVisibilityConverter : IValueConverter
+    public class ImportStatusToEnabledConverter : MarkupExtension, IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            return (ImportManager.ImportStatusOptions)value == ImportManager.ImportStatusOptions.Idle ? Visibility.Visible : Visibility.Hidden;
-        }
+        public override object ProvideValue(IServiceProvider serviceProvider) => this;
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) =>
+            (ImportManager.ImportStatusOptions)value == ImportManager.ImportStatusOptions.Idle;
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -46,7 +47,7 @@ namespace CCube
         }
     }
 
-    public class ImportStatusToContentConverter : MarkupExtension, IValueConverter
+    public class ImportStatusToContentConverter : MarkupExtension, IValueConverter, IMultiValueConverter
     {
         public object StartContent { get; set; }
         public object StopContent { get; set; }
@@ -54,20 +55,27 @@ namespace CCube
 
         public override object ProvideValue(IServiceProvider serviceProvider) => this;
 
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            switch ((ImportManager.ImportStatusOptions)value)
-            {
-                case ImportManager.ImportStatusOptions.Idle: return StartContent ?? ApplicationData.Service.MainWindow?.Resources["Start"];
-                case ImportManager.ImportStatusOptions.Running: return StopContent ?? ApplicationData.Service.MainWindow?.Resources["Stop"];
-                case ImportManager.ImportStatusOptions.Stopping: return StopContent ?? ApplicationData.Service.MainWindow?.Resources["Hourglass"];
-                default: return null;
-            }
-        }
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) =>
+            Convert(new[] { value, false, false }, targetType, parameter, culture);
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             throw new NotSupportedException("Cannot convert back");
+        }
+
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            switch ((ImportManager.ImportStatusOptions)values[0])
+            {
+                case ImportManager.ImportStatusOptions.Running: return StopContent ?? ApplicationData.Service.MainWindow?.Resources["Stop"];
+                case ImportManager.ImportStatusOptions.Stopping: return StoppingContent ?? ApplicationData.Service.MainWindow?.Resources[(bool)values[1] && (bool)values[2] ? "Skull" : "Hourglass"];
+                default: return StartContent ?? ApplicationData.Service.MainWindow?.Resources["Start"];
+            }
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -97,12 +105,8 @@ namespace CCube
 
     public class StartStopButtonEnabledConverter : IMultiValueConverter
     {
-        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if (((ImportManager.ImportStatusOptions)values[0]) == ImportManager.ImportStatusOptions.Stopping) return false;
-
-            return true;
-        }
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture) =>
+            ((ImportManager.ImportStatusOptions)values[0]) != ImportManager.ImportStatusOptions.Stopping || ((int)values[1]) == 0;
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
         {

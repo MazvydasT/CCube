@@ -21,7 +21,7 @@
             </Canvas>
         </Viewbox>
 
-        <GroupBox Tag="{Binding GroupName}" Header="{Binding Title}" x:Key="loginFieldGroup" x:Shared="false">
+        <GroupBox Tag="{Binding GroupName}" Header="{Binding Title}" IsTabStop="False" x:Key="loginFieldGroup" x:Shared="false">
             <StackPanel VerticalAlignment="Top">
                 <Label Content="User name:"/>
                 <TextBox x:Name="UserName"/>
@@ -34,7 +34,7 @@
 
                     <PasswordBox x:Name="Password" VerticalAlignment="Stretch"/>
                     <TextBox x:Name="PasswordVisible" IsReadOnly="True" Visibility="Hidden"/>
-                    <Button x:Name="ShowPassword"  Grid.Column="1" Content="{StaticResource Eye}" PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="Button_PreviewMouseLeftButtonUp" Margin="8,0,0,0" Width="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}" VerticalAlignment="Stretch" ToolTip="Reveal password"/>
+                    <Button x:Name="ShowPassword"  Grid.Column="1" Content="{StaticResource Eye}" IsTabStop="False" PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="Button_PreviewMouseLeftButtonUp" Margin="8,0,0,0" Width="{Binding RelativeSource={RelativeSource Mode=Self}, Path=ActualHeight}" VerticalAlignment="Stretch" ToolTip="Reveal password"/>
                 </Grid>
             </StackPanel>
         </GroupBox>

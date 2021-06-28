@@ -26,7 +26,7 @@ namespace CCube
                 return logDirectory;
             }
         }
-        public static string LogFilePath { get; } = Path.Combine(LogDirectory, $"{ApplicationStartTime.ToString("s").Replace(':', '-')}_input_log.csv");
+        public static string LogFilePath { get; } = Path.Combine(LogDirectory, $"{ApplicationStartTime.ToString("s").Replace(':', '-')}_input_output_log.csv");
         public static string ImportLogFilePath { get; } = Path.Combine(LogDirectory, $"{ApplicationStartTime.ToString("s").Replace(':', '-')}_import_log.csv");
 
         public void Clear()

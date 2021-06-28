@@ -50,6 +50,8 @@ namespace CCube
 
             else if (importStatus == ImportManager.ImportStatusOptions.Running)
                 importManager.Stop();
+
+            else importManager.Kill();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -73,6 +75,12 @@ namespace CCube
 
         private void ExportConfig_Click(object sender, RoutedEventArgs e)
         {
+            var service = ApplicationData.Service;
+
+            var inputsToExport = service.ExportVisibleParams ? service.InputsViewSource.View.Cast<Input>() : dataGridInputs.SelectedItems.Cast<Input>();
+
+            if (!inputsToExport.Any()) return;
+
             var saveFileDialog = new SaveFileDialog
             {
                 Filter = "CC Update Console parameters file (*.xml)|*.xml",
@@ -80,10 +88,6 @@ namespace CCube
             };
 
             if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return;
-
-            var service = ApplicationData.Service;
-
-            var inputsToExport = service.ExportVisibleParams ? service.InputsViewSource.View.Cast<Input>() : dataGridInputs.SelectedItems.Cast<Input>();
 
             try
             {
