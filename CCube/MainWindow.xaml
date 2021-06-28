@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Title="Collaboration Context Console" Height="450" Width="1000"
         DataContext="{x:Static local:ApplicationData.Service}"
+        UseLayoutRounding="True"
         Language="{Binding Language}" Icon="CCubedIcon.ico">
     <Window.Resources>
         <Style BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button"/>
@@ -64,11 +65,80 @@
                 <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M384,121.941L384,128 256,128 256,0 262.059,0C268.424,0,274.529,2.529,279.03,7.029L376.971,104.97A24.005,24.005,0,0,1,384,121.941z M248,160C234.8,160,224,149.2,224,136L224,0 24,0C10.745,0,0,10.745,0,24L0,488C0,501.255,10.745,512,24,512L360,512C373.255,512,384,501.255,384,488L384,160 248,160z M123.206,400.505A5.4,5.4,0,0,1,115.573,400.751L50.707,339.939A5.4,5.4,0,0,1,50.707,332.06L115.573,271.248A5.4,5.4,0,0,1,123.206,271.494L142.785,292.379A5.4,5.4,0,0,1,142.413,300.126L101.65,336 142.413,371.874A5.4,5.4,0,0,1,142.785,379.621L123.206,400.505z M174.501,450.984L147.048,443.014A5.402,5.402,0,0,1,143.367,436.322L204.807,224.696A5.402,5.402,0,0,1,211.499,221.015L238.951,228.985A5.4,5.4,0,0,1,242.631,235.677L181.191,447.303A5.397,5.397,0,0,1,174.501,450.984z M335.293,339.939L270.427,400.751A5.4,5.4,0,0,1,262.794,400.505L243.214,379.62A5.4,5.4,0,0,1,243.586,371.873L284.35,336 243.587,300.126A5.4,5.4,0,0,1,243.215,292.379L262.795,271.494A5.4,5.4,0,0,1,270.428,271.248L335.294,332.06A5.4,5.4,0,0,1,335.293,339.939z"/>
             </Canvas>
         </Viewbox>
+
+        <Viewbox x:Key="Times" x:Shared="False">
+            <Canvas Width="352" Height="512">
+                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M242.72,256L342.79,155.93C355.07,143.65,355.07,123.74,342.79,111.45L320.55,89.21C308.27,76.93,288.36,76.93,276.07,89.21L176,189.28 75.93,89.21C63.65,76.93,43.74,76.93,31.45,89.21L9.21,111.45C-3.07,123.73,-3.07,143.64,9.21,155.93L109.28,256 9.21,356.07C-3.07,368.35,-3.07,388.26,9.21,400.55L31.45,422.79C43.73,435.07,63.65,435.07,75.93,422.79L176,322.72 276.07,422.79C288.35,435.07,308.27,435.07,320.55,422.79L342.79,400.55C355.07,388.27,355.07,368.36,342.79,356.07L242.72,256z"/>
+            </Canvas>
+        </Viewbox>
+
+        <Viewbox x:Key="Terminal" x:Shared="False">
+            <Canvas Width="640" Height="512">
+                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Data="M257.981,272.971L63.638,467.314C54.265,476.687,39.069,476.687,29.697,467.314L7.029,444.647C-2.328,435.29,-2.346,420.125,6.989,410.746L161.011,256 6.99,101.255C-2.345,91.876,-2.327,76.711,7.03,67.354L29.697,44.687C39.07,35.314,54.266,35.314,63.638,44.687L257.981,239.03C267.354,248.402,267.354,263.598,257.981,272.971z M640,456L640,424C640,410.745,629.255,400,616,400L312,400C298.745,400,288,410.745,288,424L288,456C288,469.255,298.745,480,312,480L616,480C629.255,480,640,469.255,640,456z"/>
+            </Canvas>
+        </Viewbox>
     </Window.Resources>
     <Grid>
-        <local:LogIn KeyboardNavigation.TabNavigation="Cycle" Visibility="Hidden" x:Name="LogInWindow" Panel.ZIndex="1"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <Grid Margin="8" KeyboardNavigation.TabNavigation="Cycle">
+        <Expander FlowDirection="RightToLeft" Margin="8,8,8,0" IsExpanded="{Binding CCCommandExeFound, Mode=OneTime, Converter={local:BoolInverter}}">
+            <Expander.Header>
+                <TextBlock FlowDirection="LeftToRight">Settings</TextBlock>
+            </Expander.Header>
+            
+            <Grid FlowDirection="LeftToRight" Margin="0,2.5,0,0">
+                <StackPanel>
+                    <Label>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>
+                                <Run Text="Path to"/>
+                                <Run Text="{Binding CCCommandExeName, Mode=OneTime}"/><Run Text=":"/>
+                            </TextBlock>
+
+                            <TextBlock Visibility="{Binding CCCommandExeFound, Converter={local:BoolToVisibilityConverter}}" Text=" Cannot find executable. Make sure it is installed and its directory added to the PATH system variable or set in the text field below." FontWeight="Bold"/>
+                        </StackPanel>
+                    </Label>
+
+                    <Border BorderThickness="1" BorderBrush="{Binding ElementName=pathToCCCommand, Path=BorderBrush}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox x:Name="pathToCCCommand" IsReadOnly="True" Text="{Binding UserSetPathToCCCommandExe, Mode=OneWay}" BorderThickness="0" VerticalAlignment="Center"/>
+
+                            <Button x:Name="ClearPathToCCObject" Height="{Binding ElementName=pathToCCCommand, Path=ActualHeight}" Width="{Binding RelativeSource={RelativeSource Self}, Path=Height}" Visibility="{Binding UserSetPathToCCCommandExe, Converter={local:StringToVisibilityConverter}}" Content="{StaticResource Times}" BorderThickness="0" Click="ClearPathToCCObject_Click" Grid.Column="1">
+                                <Button.ToolTip>
+                                    <TextBlock>
+                                        <Run Text="Clear path to"/>
+                                        <Run Text="{Binding CCCommandExeName, Mode=OneTime}"/>
+                                    </TextBlock>
+                                </Button.ToolTip>
+                            </Button>
+
+                            <Button x:Name="BrowsePathToCCObject"  Height="{Binding ElementName=pathToCCCommand, Path=ActualHeight}" Width="{Binding RelativeSource={RelativeSource Self}, Path=Height}" Content="{StaticResource Terminal}" Grid.Column="2" BorderThickness="0" Click="BrowsePathToCCObject_Click">
+                                <Button.ToolTip>
+                                    <TextBlock>
+                                        <Run Text="Set path to"/>
+                                        <Run Text="{Binding CCCommandExeName, Mode=OneTime}"/>
+                                    </TextBlock>
+                                </Button.ToolTip>
+                            </Button>
+
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Expander>
+        
+        <local:LogIn Grid.RowSpan="2" KeyboardNavigation.TabNavigation="Cycle" Visibility="Hidden" x:Name="LogInWindow" Panel.ZIndex="1"/>
+
+        <Grid Margin="8" Grid.Row="1" KeyboardNavigation.TabNavigation="Cycle">
             <Grid.Effect>
                 <BlurEffect>
                     <BlurEffect.Radius>
@@ -221,6 +291,7 @@
                         <MultiBinding Converter="{StaticResource StartStopButtonEnabledConverter}">
                             <Binding Path="ImportManager.Status"/>
                             <Binding Path="ImportManager.KillCooldown"/>
+                            <Binding Path="CCCommandExeFound"/>
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
@@ -253,11 +324,11 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <Button x:Name="OpenLogFolderButton" Height="25" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Click="OpenLogFolderButton_Click" Margin="0,0,2.5,0">
+                    <Button x:Name="OpenLogFolderButton" Height="25" HorizontalAlignment="Left" Click="OpenLogFolderButton_Click" Margin="0,0,2.5,0">
                         <Button.Content>
                             <TextBlock VerticalAlignment="Center">
-                            <Run Text="Open log directory: "/>
-                            <Run Text="{x:Static local:Logger.LogDirectory}" FontStyle="Italic"/>
+                                <Run Text="Open log directory: " FontWeight="Bold" />
+                                <Run Text="{x:Static local:Logger.LogDirectory}" FontStyle="Italic"/>
                             </TextBlock>
                         </Button.Content>
                     </Button>
@@ -266,7 +337,7 @@
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <StackPanel>
                                 <RadioButton IsChecked="{Binding ExportVisibleParams}" Content="Visible" GroupName="ParamsOut"/>
-                                <RadioButton IsChecked="{Binding ExportVisibleParams, Mode=OneWay, Converter={local:ParamsOutVisibleConverter}}" Content="Selected" GroupName="ParamsOut"/>
+                                <RadioButton IsChecked="{Binding ExportVisibleParams, Mode=OneWay, Converter={local:BoolInverter}}" Content="Selected" GroupName="ParamsOut"/>
                             </StackPanel>
 
                             <Button x:Name="ExportConfig" IsEnabled="{Binding ImportManager.Status, Converter={local:ImportStatusToEnabledConverter}}" Content="{StaticResource XMLFile}" VerticalAlignment="Center" ToolTip="Export parameters file" Height="35" Width="35" Margin="5,0,0,0" Click="ExportConfig_Click"/>
@@ -285,8 +356,8 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" DataContext="{Binding ElementName=dataGridInputs, Path=SelectedItem}" Grid.Row="1" Grid.Column="2">
-                <StackPanel VerticalAlignment="Top">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" DataContext="{Binding ElementName=dataGridInputs, Path=SelectedItem}" Grid.Row="1" Grid.Column="2" BorderThickness="0">
+                <StackPanel VerticalAlignment="Top" Margin="2.5,0,2.5,2.5">
                     <Expander  Header="Input">
 
                         <local:SummaryDisplay Margin="0,8,0,0">
@@ -321,7 +392,7 @@
 
                     </Expander>
 
-                    <Expander Header="Current iteration" IsExpanded="True">
+                    <!--Expander Header="Current iteration" IsExpanded="True">
 
                         <local:SummaryDisplay Margin="0,8,0,0">
                             <local:SummaryDisplay.DataContext>
@@ -345,9 +416,9 @@
                             </local:SummaryDisplay.DataContext>
                         </local:SummaryDisplay>
 
-                    </Expander>
+                    </Expander-->
 
-                    <Expander Header="Iterations">
+                    <Expander Header="Iterations" IsExpanded="True">
 
                         <DataGrid AlternatingRowBackground="#FFD9D9D9" VerticalGridLinesBrush="#FFD9D9D9" HorizontalGridLinesBrush="#FFD9D9D9" ItemsSource="{Binding Iterations}" AutoGenerateColumns="False" IsReadOnly="True" AlternationCount="2" SelectionUnit="Cell" Margin="0,8,0,0" >
                             <DataGrid.Columns>

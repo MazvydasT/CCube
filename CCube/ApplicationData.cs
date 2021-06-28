@@ -55,30 +55,36 @@ namespace CCube
 
         public string CCCommandExeName { get { return "CCCommand.exe"; } }
 
-        private string userSetPathToCCCommandExe = @"C:\Program Files\Siemens\Tecnomatix_14.1\eMPower\eM-Planner\CCCommand.exe";
+        //private string userSetPathToCCCommandExe = @"C:\Program Files\Siemens\Tecnomatix_14.1\eMPower\eM-Planner\CCCommand.exe";
         public string UserSetPathToCCCommandExe
         {
-            get => userSetPathToCCCommandExe;
+            get => Properties.Settings.Default.CCCommandPath;
             set
             {
-                if (Equals(userSetPathToCCCommandExe, value)) return;
+                var settings = Properties.Settings.Default;
 
-                userSetPathToCCCommandExe = value;
+                if (settings.CCCommandPath == value) return;
+
+                settings.CCCommandPath = value;
+                settings.Save();
+
                 ccCommandExeFound = null;
 
                 OnPropertyChanged();
-                OnPropertyChanged("PathToCCCommandExe");
-                OnPropertyChanged("CCCommandExeFound");
+                OnPropertyChanged(nameof(PathToCCCommandExe));
+                OnPropertyChanged(nameof(CCCommandExeFound));
             }
         }
 
-        public string PathToCCCommandExe { get { return string.IsNullOrWhiteSpace(UserSetPathToCCCommandExe) ? CCCommandExeName : UserSetPathToCCCommandExe; } }
+        public string PathToCCCommandExe => string.IsNullOrWhiteSpace(UserSetPathToCCCommandExe) ? CCCommandExeName : UserSetPathToCCCommandExe;
 
         private bool? ccCommandExeFound;
         public bool CCCommandExeFound
         {
             get
             {
+                if (!string.IsNullOrEmpty(UserSetPathToCCCommandExe) && !UserSetPathToCCCommandExe.EndsWith(CCCommandExeName, StringComparison.OrdinalIgnoreCase)) return false;
+
                 if (ccCommandExeFound == null)
                 {
                     try
@@ -86,10 +92,9 @@ namespace CCube
                         Process.Start(new ProcessStartInfo()
                         {
                             FileName = PathToCCCommandExe,
-                            Arguments = "syncNode",
                             UseShellExecute = false,
                             CreateNoWindow = true
-                        }).WaitForExit();
+                        }).Kill();
 
                         ccCommandExeFound = true;
                     }

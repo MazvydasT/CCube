@@ -34,5 +34,17 @@ namespace CCube.Properties {
                 this["VisibleParamsOut"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CCCommandPath {
+            get {
+                return ((string)(this["CCCommandPath"]));
+            }
+            set {
+                this["CCCommandPath"] = value;
+            }
+        }
     }
 }

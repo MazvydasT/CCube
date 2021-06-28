@@ -100,5 +100,25 @@ namespace CCube
                 Logger.Service.Log(exception.Message, Notification.NotificationTypes.Error);
             }
         }
+
+        private void ClearPathToCCObject_Click(object sender, RoutedEventArgs e) =>
+            ApplicationData.Service.UserSetPathToCCCommandExe = null;
+
+        private void BrowsePathToCCObject_Click(object sender, RoutedEventArgs e)
+        {
+            var ccCommandExeName = ApplicationData.Service.CCCommandExeName;
+
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = $"Executable ({ccCommandExeName})|{ccCommandExeName}",
+                CheckPathExists = true,
+                CheckFileExists = true,
+                Multiselect = false
+            };
+
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return;
+            
+            ApplicationData.Service.UserSetPathToCCCommandExe = openFileDialog.FileName;
+        }
     }
 }

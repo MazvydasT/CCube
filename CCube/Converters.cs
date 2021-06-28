@@ -91,7 +91,20 @@ namespace CCube
         }
     }
 
-    public class ParamsOutVisibleConverter : MarkupExtension, IValueConverter
+    public class StringToVisibilityConverter : MarkupExtension, IValueConverter
+    {
+        public override object ProvideValue(IServiceProvider serviceProvider) => this;
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) =>
+            string.IsNullOrEmpty((string)value) ? Visibility.Collapsed : Visibility.Visible;
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotSupportedException("Cannot convert back");
+        }
+    }
+
+    public class BoolInverter : MarkupExtension, IValueConverter
     {
         public override object ProvideValue(IServiceProvider serviceProvider) => this;
 
@@ -103,10 +116,22 @@ namespace CCube
         }
     }
 
+    public class BoolToVisibilityConverter : MarkupExtension, IValueConverter
+    {
+        public override object ProvideValue(IServiceProvider serviceProvider) => this;
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => ((bool)value) ? Visibility.Collapsed : Visibility.Visible;
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotSupportedException("Cannot convert back");
+        }
+    }
+
     public class StartStopButtonEnabledConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture) =>
-            ((ImportManager.ImportStatusOptions)values[0]) != ImportManager.ImportStatusOptions.Stopping || ((int)values[1]) == 0;
+            (((ImportManager.ImportStatusOptions)values[0]) != ImportManager.ImportStatusOptions.Stopping || ((int)values[1]) == 0) && (bool)values[2];
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
         {

@@ -209,7 +209,7 @@ namespace CCube
                         {
                             "Exception",
                             e.Message,
-                            $"Could not start '{ApplicationData.Service.PathToCCCommandExe}'. Make sure it is installed and its directory is added to PATH system variable."
+                            $"Could not start '{ApplicationData.Service.PathToCCCommandExe}'. Make sure it is installed and its directory added to the PATH system variable or set in the Settings area of this app."
                         });
                     }
 
