@@ -102,7 +102,7 @@
                         </StackPanel>
                     </Label>
 
-                    <Border BorderThickness="1" BorderBrush="{Binding ElementName=pathToCCCommand, Path=BorderBrush}">
+                   <Border BorderThickness="1" BorderBrush="{Binding ElementName=pathToCCCommand, Path=BorderBrush}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -112,7 +112,7 @@
 
                             <TextBox x:Name="pathToCCCommand" IsReadOnly="True" Text="{Binding UserSetPathToCCCommandExe, Mode=OneWay}" BorderThickness="0" VerticalAlignment="Center"/>
 
-                            <Button x:Name="ClearPathToCCObject" Height="{Binding ElementName=pathToCCCommand, Path=ActualHeight}" Width="{Binding RelativeSource={RelativeSource Self}, Path=Height}" Visibility="{Binding UserSetPathToCCCommandExe, Converter={local:StringToVisibilityConverter}}" Content="{StaticResource Times}" BorderThickness="0" Click="ClearPathToCCObject_Click" Grid.Column="1">
+                            <Button x:Name="ClearPathToCCObject" IsEnabled="{Binding ImportManager.Status, Converter={local:ImportStatusToEnabledConverter}}" Height="{Binding ElementName=pathToCCCommand, Path=ActualHeight}" Width="{Binding RelativeSource={RelativeSource Self}, Path=Height}" Visibility="{Binding UserSetPathToCCCommandExe, Converter={local:StringToVisibilityConverter}}" Content="{StaticResource Times}" BorderThickness="0" Click="ClearPathToCCObject_Click" Grid.Column="1">
                                 <Button.ToolTip>
                                     <TextBlock>
                                         <Run Text="Clear path to"/>
@@ -121,7 +121,7 @@
                                 </Button.ToolTip>
                             </Button>
 
-                            <Button x:Name="BrowsePathToCCObject"  Height="{Binding ElementName=pathToCCCommand, Path=ActualHeight}" Width="{Binding RelativeSource={RelativeSource Self}, Path=Height}" Content="{StaticResource Terminal}" Grid.Column="2" BorderThickness="0" Click="BrowsePathToCCObject_Click">
+                            <Button x:Name="BrowsePathToCCObject" IsEnabled="{Binding ImportManager.Status, Converter={local:ImportStatusToEnabledConverter}}" Height="{Binding ElementName=pathToCCCommand, Path=ActualHeight}" Width="{Binding RelativeSource={RelativeSource Self}, Path=Height}" Content="{StaticResource Terminal}" Grid.Column="2" BorderThickness="0" Click="BrowsePathToCCObject_Click">
                                 <Button.ToolTip>
                                     <TextBlock>
                                         <Run Text="Set path to"/>
